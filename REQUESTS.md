@@ -7,6 +7,7 @@
 - [x] Moderation limited to consent, privacy, spam, abuse, and basic validity.
 - [x] Declarations limited to 140 characters, with a 20-character minimum.
 - [x] Optional city appears on the map only with explicit permission.
+- [x] Optional institution / affiliation is displayed when provided and omitted when blank.
 - [x] Per-declaration sharing, hearts, and private flags.
 - [x] Contact address shown as `contact@whywedophysics.com`.
 - [ ] Configure that address to forward to `contact@ai4theory.org` in Bluehost.

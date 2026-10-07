@@ -28,7 +28,7 @@ Moderation is for consent, privacy, spam, abuse, and basic form validity—not e
 The form accepts:
 
 - name;
-- optional affiliation;
+- optional institution or affiliation;
 - optional career stage and PhD year;
 - optional primary arXiv field and arXiv identifier;
 - a 20–140 character declaration;
