@@ -23,6 +23,7 @@
 - [x] No print control, repeated title, map title, separator, or explanatory map copy.
 - [x] Answer colors are split roughly evenly between black and PaperView blue `#0056b3`.
 - [x] Cards are fixed height.
+- [x] Declaration text is top-aligned; contributor and location metadata is anchored above the bottom action row.
 - [x] arXiv fields and career stages are lowercase, compact tags.
 - [x] Filter chips use separate arXiv-field and career-stage rows beside the response and country tally.
 - [x] Search offers `RECENT | POPULAR`; popular sorts by hearts.
