@@ -7,5 +7,14 @@
 /config.js
   Cache-Control: no-store
 
+/app.js
+  Cache-Control: no-cache
+
+/style.css
+  Cache-Control: no-cache
+
+/
+  Cache-Control: no-cache
+
 /*.html
   Cache-Control: no-cache

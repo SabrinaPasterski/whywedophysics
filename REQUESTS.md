@@ -71,6 +71,7 @@
 - [x] About mission: “Physics is changing. The reasons why we do it will shape what it becomes. This project records those reasons, one short declaration at a time. Add yours.”
 - [x] The About call to action stays on its own line and uses the same font and grey color as the body; the heading remains unchanged.
 - [x] A temporarily unreachable wall silently uses the last successful approved response data; sample content is not hardcoded in the browser.
+- [x] Production HTML, CSS, and JavaScript do not mix stale cached versions after a deployment.
 - [ ] Store illustrative responses as normal moderated Sheet rows so they can be approved, unapproved, or removed like any other entry.
 
 ## Repository and operations
