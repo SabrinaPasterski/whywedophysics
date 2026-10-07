@@ -54,7 +54,7 @@
 - [x] Submission confirmation keeps the copyable ID but omits the `Reference ID` label.
 - [x] The confirmation shows the optional ID and COPY control without instructing people to save it.
 - [x] Confirmation explains the identifier minimally: “This ID identifies your post.”
-- [x] Identifier explanation and contact sentence share one paragraph and one font in the wider confirmation dialog.
+- [x] Identifier explanation and contact sentence share one paragraph and one font in the narrower confirmation dialog.
 - [x] Post identifiers use the `WWDP-` prefix.
 - [x] Submit form states: “Submissions subject to moderation and community flagging.”
 - [x] Desktop Submit dialog fits without an unnecessary internal scrollbar; mobile retains scrolling only when the viewport requires it.

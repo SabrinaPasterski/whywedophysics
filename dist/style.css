@@ -50,7 +50,7 @@ footer{margin-top:18px}
 .form-actions{display:flex;align-items:center;justify-content:space-between;gap:18px}
 .form-actions .moderation-inline{max-width:430px;margin:0;color:#6b7280;font-size:11px;line-height:1.45}
 .form-actions .primary{flex:0 0 auto}
-#submission-dialog{max-width:820px}
+#submission-dialog{max-width:580px}
 .reference-row{display:flex;align-items:center;gap:12px;border:1px solid var(--line);padding:12px 14px}
 .reference-row strong{flex:1;color:var(--blue);font-size:18px;letter-spacing:.06em}
 .reference-row button{padding:5px;color:#6b7280;font-size:11px}
