@@ -1,6 +1,6 @@
 # Why We Do Physics
 
-A bottom-up collection of short declarations from people who do physics.
+Physics is changing. The reasons why we do it will shape what it becomes. This project records those reasons, one short declaration at a time. Add yours.
 
 ## Preview
 
@@ -28,7 +28,7 @@ Moderation is for consent, privacy, spam, abuse, and basic form validity—not e
 The form accepts:
 
 - name;
-- optional institution or affiliation;
+- required university or institution;
 - optional career stage and PhD year;
 - optional primary arXiv field and arXiv identifier;
 - a 20–140 character declaration;

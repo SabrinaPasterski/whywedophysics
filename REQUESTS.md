@@ -7,7 +7,8 @@
 - [x] Moderation limited to consent, privacy, spam, abuse, and basic validity.
 - [x] Declarations limited to 140 characters, with a 20-character minimum.
 - [x] Optional city appears on the map only with explicit permission.
-- [x] Optional institution / affiliation is displayed when provided and omitted when blank.
+- [x] University / institution is required and displayed on each submitted response.
+- [x] Career stage row is undergrad, master’s, PhD, postdoc, faculty, alumni.
 - [x] Per-declaration sharing, hearts, and private flags.
 - [x] Contact address shown as `contact@whywedophysics.com`.
 - [ ] Configure that address to forward to `contact@ai4theory.org` in Bluehost.
@@ -23,13 +24,26 @@
 - [x] No print control, repeated title, map title, separator, or explanatory map copy.
 - [x] Answer colors are split roughly evenly between black and PaperView blue `#0056b3`.
 - [x] Cards are fixed height.
-- [x] Declaration text is top-aligned; contributor and location metadata is anchored above the bottom action row.
+- [x] Declaration text is top-aligned; contributor, institution, and location occupy separate lines above the bottom action row.
 - [x] arXiv fields and career stages are lowercase, compact tags.
+- [x] Card tags use a white fill rather than a grey fill.
 - [x] Filter chips use separate arXiv-field and career-stage rows beside the response and country tally.
 - [x] Search offers `RECENT | POPULAR`; popular sorts by hearts.
+- [x] Six cards per page; compact `PREVIOUS  n/N  NEXT` controls sit lower right and reserve no space when hidden.
+- [x] Preview data includes a seventh card so `NEXT` is visible after the first six.
+- [x] Mobile layout keeps the compact header, fixed cards, tags, filters, map, and pager usable without extra whitespace.
 - [x] Example map cards occupy non-overlapping positions.
+- [x] Map cards always use PaperView blue text and are assigned to longitude-ordered lanes with non-crossing connectors.
+- [x] One row shows common arXiv categories; `+` expands a second arXiv row containing the remaining categories, including `math-ph`.
+- [x] The undergrad/master’s/PhD/postdoc/faculty/alumni row sits below the arXiv rows.
+- [x] A compact `CLEAR` control appears only while a map filter is selected.
+- [x] arXiv and career-stage chips support multiple simultaneous selections.
 - [x] Links have no underlines; sharing uses an icon.
-- [x] About copy: “A bottom-up collection of short declarations about why we do physics. Add yours. Explore the map. Share one.”
+- [x] Header omits redundant site sharing; card icons share individual declarations.
+- [x] Submit form leads with the 140-character declaration, groups metadata into compact rows, and reveals required city/country fields only after map permission is selected.
+- [x] Name field keeps the `Name` label and uses `As it will appear` as its placeholder.
+- [x] About mission: “Physics is changing. The reasons why we do it will shape what it becomes. This project records those reasons, one short declaration at a time. Add yours.”
+- [x] The About call to action stays on its own line and uses the same font and grey color as the body; the heading remains unchanged.
 
 ## Repository and operations
 
