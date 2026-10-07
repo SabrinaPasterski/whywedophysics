@@ -25,7 +25,7 @@
 - [x] Keep the blue φ favicon as the small `why-phy` mark; do not replace it with WiPhy branding.
 - [x] Use a larger blue φ-and-stop mark within the square: position the φ slightly lower, shorten its stem, then use a compact flat-sided extension after a gap equal to the extension's height so it can also read as a question. The lower extension is a 4×4 square matching the φ stem width, with an exact 4-unit gap. Verified in the local full-size SVG preview.
 - [x] Both brand lines have the same rendered width using interletter spacing in Safari and Chrome.
-- [x] Keep both brand lines equal in width, slightly narrow the lockup, and reduce the vertical gap between them.
+- [x] Keep both brand lines equal in width, compress the lockup horizontally only without reducing either line's height, and reduce the vertical gap between them.
 - [x] Brand spacing is CSS-only and stable on first paint; `a community portrait` does not wobble after load or fall back to word-only justification in Safari.
 - [x] Mobile keeps the full world map in view without a horizontal scrollbar, with the header, hero, cards, search, and footer fitting a 390px viewport.
 - [x] Header and footer rules have the same inset width.
@@ -38,6 +38,7 @@
 - [x] Answer colors are split roughly evenly between black and PaperView blue `#0056b3`.
 - [x] Cards are fixed height.
 - [x] Declaration text is top-aligned; contributor, institution, and location occupy separate lines above the bottom action row.
+- [x] Slightly tighten the line spacing between affiliation and location without changing the fixed lower-card alignment.
 - [x] Declaration text sits slightly lower beneath the date and tag row without changing card height.
 - [x] Optional PhD year appears beside the contributor name as `Name, PhD YYYY`; it is smaller and regular weight, and only the name is bold.
 - [x] arXiv fields and career stages are lowercase, compact tags.
