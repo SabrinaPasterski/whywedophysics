@@ -27,6 +27,7 @@
 - [x] Both brand lines have the same rendered width using interletter spacing in Safari and Chrome.
 - [x] Keep both brand lines equal in width, compress the lockup horizontally only without reducing either line's height, and reduce the vertical gap between them.
 - [x] Brand spacing is CSS-only and stable on first paint; `a community portrait` does not wobble after load or fall back to word-only justification in Safari.
+- [x] Reduce only the vertical gap between the two brand lines; preserve their equal widths, letter spacing, and text heights.
 - [x] Mobile keeps the full world map in view without a horizontal scrollbar, with the header, hero, cards, search, and footer fitting a 390px viewport.
 - [x] Header and footer rules have the same inset width.
 - [x] Hero question is vertically centered beside one fixed-height rotating card.
