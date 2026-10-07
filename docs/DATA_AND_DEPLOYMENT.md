@@ -5,7 +5,7 @@
 - **Public site:** Cloudflare Pages on the Free plan.
 - **Domain:** `whywedophysics.com`; Bluehost remains the registrar only. DNS moves to Cloudflare, matching the other public sites.
 - **Submission form:** the form on the site. Contributors are not redirected to Google Forms.
-- **Private data:** a Google Sheet created and owned by `ai4theory@gmail.com`, reached through a Google Apps Script web app.
+- **Private data:** a Google Sheet created and owned by `ai4theory@gmail.com`, reached through a Google Apps Script web app relayed by the site's same-origin Cloudflare Pages Function.
 - **Contact:** Cloudflare Email Routing sends `contact@whywedophysics.com` to the same verified mailbox used by `contact@ai4theory.org`.
 
 Production is connected to the public repository at `https://github.com/SabrinaPasterski/whywedophysics`. Cloudflare Pages serves both `https://whywedophysics.com` and `https://www.whywedophysics.com`; the Pages fallback remains `https://whywedophysics.pages.dev`.
@@ -79,7 +79,7 @@ When updating an existing deployment after adding moderation email alerts, creat
 
 Production was migrated to the 17-column moderation schema and Apps Script Version 3 on October 7, 2026. `Approved` and `Illustrative` are the first two columns, `Timestamp` is column C with a compact date-time display, and the public `/exec` URL is unchanged.
 
-The Apps Script deployment URL is public by design, but it is not a credential. Never commit Google credentials or make the Sheet public.
+The Apps Script deployment URL is public by design and is stored in `functions/api.js`; it is not a credential. The browser calls the same-origin `/api` route so Chrome does not need to load Apps Script as a third-party script. Never commit Google credentials or make the Sheet public.
 
 ## Cloudflare setup
 

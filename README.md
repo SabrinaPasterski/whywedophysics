@@ -16,7 +16,7 @@ Without a configured endpoint, the site contains no embedded declarations and do
 
 ## Submissions and moderation
 
-The public form is part of the site. A private Google Sheet owned by `ai4theory@gmail.com` and Apps Script provide the moderation queue; contributors are not sent to a Google Form.
+The public form is part of the site. A private Google Sheet owned by `ai4theory@gmail.com` and Apps Script provide the moderation queue; a same-origin Cloudflare Pages Function relays browser requests to Apps Script so contributors are not sent to a Google Form.
 
 1. Create a project at `https://script.google.com` in the account that should own the response data.
 2. Paste `google/Code.gs` into the project.
@@ -66,7 +66,7 @@ Production source: [github.com/SabrinaPasterski/whywedophysics](https://github.c
 
 The complete data model, moderation process, free-tier constraint, and deployment checklist are in [`docs/DATA_AND_DEPLOYMENT.md`](docs/DATA_AND_DEPLOYMENT.md).
 
-Do not place credentials in this repository. `dist/config.js` contains only the public Apps Script web-app URL.
+Do not place credentials in this repository. `functions/api.js` contains only the public Apps Script web-app URL; it is not a credential.
 
 ## Files
 

@@ -78,6 +78,7 @@
 - [x] Production HTML, CSS, and JavaScript do not mix stale cached versions after a deployment.
 - [x] The production endpoint configuration overrides any legacy browser-local backend URL so an existing visitor cannot stay pinned to an old Apps Script deployment.
 - [x] Invalid legacy browser visitor IDs are regenerated so the backend cannot reject a returning visitor while the page silently keeps stale cached responses.
+- [x] Relay wall and submission requests through a same-origin Cloudflare Pages Function so Chrome cannot reject the Apps Script response as a third-party script.
 - [x] Store illustrative responses as normal moderated Sheet rows so they can be approved, unapproved, or removed like any other entry.
 
 ## Repository and operations
