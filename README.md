@@ -27,6 +27,8 @@ The public form is part of the site. A private Google Sheet owned by `ai4theory@
 5. Put the deployment URL ending in `/exec` in `dist/config.js` as `endpointUrl`.
 6. Submit a test response. It must remain absent from the public wall until **Approved** is checked in the private Responses sheet.
 
+Each successfully saved submission sends a best-effort moderation alert to `ai4theory@gmail.com` with its ID, contributor, declaration, and a link to the private Sheet. Google Apps Script sends the email without a paid service. If email delivery fails, the response remains safely stored in the moderation queue.
+
 Moderation is for consent, privacy, spam, abuse, and basic form validity—not editorial selection. Unchecking **Approved** removes a response from the public wall.
 
 The form accepts:

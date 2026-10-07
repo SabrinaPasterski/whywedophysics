@@ -11,6 +11,7 @@ const RESPONSE_HEADERS = ['Approved','Illustrative','Timestamp','Name','Affiliat
 const BACKUP_FOLDER_NAME = 'Why We Do Physics \u2014 backups';
 const DAILY_BACKUP_DAYS = 90;
 const MONTHLY_BACKUP_DAYS = 730;
+const MODERATION_EMAIL = 'ai4theory@gmail.com';
 
 function setupSite() {
   const props = PropertiesService.getScriptProperties();
@@ -110,6 +111,28 @@ function clean(value, max) { return String(value || '').trim().slice(0, max); }
 function publicDate(value) { return value instanceof Date && !isNaN(value) ? Utilities.formatDate(value, Session.getScriptTimeZone(), 'yyyy-MM-dd') : ''; }
 function json(value) { return ContentService.createTextOutput(JSON.stringify(value).replace(/</g, '\\u003c')).setMimeType(ContentService.MimeType.JSON); }
 
+function notifyModerator_(entry, sheetUrl) {
+  try {
+    MailApp.sendEmail({
+      to: MODERATION_EMAIL,
+      subject: 'New Why We Do Physics submission \u2014 ' + entry.id,
+      body: [
+        'A new response is waiting for review.',
+        '',
+        'Name: ' + entry.name,
+        'Affiliation: ' + entry.affiliation,
+        'Declaration: ' + entry.reason,
+        'ID: ' + entry.id,
+        '',
+        'Review: ' + sheetUrl
+      ].join('\n'),
+      name: 'Why We Do Physics'
+    });
+  } catch (err) {
+    console.log('Submission saved, but the moderation email could not be sent: ' + err.message);
+  }
+}
+
 function doPost(e) {
   const p = (e && e.parameter) || {};
   let lock;
@@ -129,7 +152,8 @@ function doPost(e) {
     lock = LockService.getScriptLock();
     if (!lock.tryLock(10000)) throw new Error('The site is busy. Please try again.');
     const props = PropertiesService.getScriptProperties();
-    const sheet = SpreadsheetApp.openById(props.getProperty('SHEET_ID')).getSheetByName(props.getProperty('RESPONSE_SHEET'));
+    const ss = SpreadsheetApp.openById(props.getProperty('SHEET_ID'));
+    const sheet = ss.getSheetByName(props.getProperty('RESPONSE_SHEET'));
     const id = submissionId || Utilities.getUuid();
     const row = [false, false, new Date(), name, affiliation, stage, year, category, reason, city, country, mapOptIn ? MAP_PERMISSION : '', consent ? CONSENT : '', id, '', '', ''];
     if (mapOptIn) {
@@ -146,6 +170,7 @@ function doPost(e) {
     sheet.insertRowAfter(1);
     sheet.getRange(2, 1, 1, row.length).setValues([row]);
     sheet.getRange(2, 1, 1, 2).insertCheckboxes().setValues([[false, false]]);
+    notifyModerator_({id, name, affiliation, reason}, ss.getUrl());
     return json({ok: true, id: id});
   } catch (err) {
     const safe = ['Invalid request.','Complete the required fields.','Check the PhD year.','Add both city and country for map placement.','The site is busy. Please try again.'];

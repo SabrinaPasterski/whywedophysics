@@ -6,6 +6,7 @@
 - [x] Native on-site form with a private Google Sheets moderation queue.
 - [x] The moderation Sheet keeps real responses at the top and puts the `Approved` checkbox in column A.
 - [x] New moderation entries and the public wall both default to newest first.
+- [x] Email `ai4theory@gmail.com` when a new submission is saved; a mail failure must not lose or reject the submission.
 - [x] Moderation limited to consent, privacy, spam, abuse, and basic validity.
 - [x] Declarations limited to 140 characters, with a 20-character minimum.
 - [x] Optional city appears on the map only with explicit permission.
