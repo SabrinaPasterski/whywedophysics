@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Why We Do Physics</title>
+<meta name="description" content="A collective wall of the reasons we do physics.">
+<link rel="icon" href="favicon.svg">
+<link rel="stylesheet" href="style.css">
+<script src="config.js" defer>
+</script>
+<script src="app.js" defer>
+</script>
+</head>
+<body>
+<header>
+<a class="brand" href="#"><span class="brand-title">WHY WE DO PHYSICS</span><span class="brand-subtitle">a community portrait</span>
+</a>
+<nav>
+<button id="about">About</button>
+<a href="#search-input" class="search-nav">Search</a>
+<button class="primary" id="contribute">Submit <span>+</span>
+</button>
+</nav>
+</header>
+<main>
+<section class="intro">
+<h1><span>Why do <em>you</em></span><span>do physics?</span></h1>
+<div class="featured-wrap">
+<div id="featured" class="featured featured-single" aria-label="Featured declaration">
+</div>
+<div class="featured-nav">
+<button id="featured-prev" aria-label="Previous declaration">‹</button>
+<button id="featured-next" aria-label="Next declaration">›</button>
+</div>
+</div>
+<div class="legend">
+<span class="count" id="count">6</span>
+<span id="count-label">example responses</span>
+<span id="mode">Preview · illustrative responses</span>
+</div>
+</section>
+<section class="map-section" aria-label="A map of responses">
+<div class="map-toolbar">
+<span id="response-tally">6 responses</span>
+<div id="filter-chips" aria-label="Filter responses"></div>
+</div>
+<p id="map-status" class="sr-only" aria-live="polite">
+</p>
+<div class="map-stage">
+<div class="map-canvas">
+<img src="world.svg" alt="World map showing contributor cities">
+<svg id="map-lines" viewBox="0 0 1000 500" aria-hidden="true">
+</svg>
+<div id="map-pins">
+</div>
+<div id="clouds">
+</div>
+</div>
+</div>
+</section>
+<section class="wall-section" aria-label="All responses">
+<div class="search-row">
+<label for="search-input">Search</label>
+<input id="search-input" type="search" placeholder="Reason, name, affiliation, year, or place">
+<span id="search-count" role="status">
+</span>
+<div class="sort-controls" aria-label="Sort responses">
+<button id="sort-latest" aria-pressed="true">RECENT</button>
+<span>|</span>
+<button id="sort-liked" aria-pressed="false">POPULAR</button>
+</div>
+</div>
+<p id="status" role="status">
+</p>
+<div id="wall" class="wall">
+</div>
+<div class="pager" aria-label="Response pages" hidden>
+<button id="page-prev">PREVIOUS</button>
+<span id="page-count">1 / 1</span>
+<button id="page-next">NEXT</button>
+</div>
+</section>
+<footer>
+<span>#whywedophysics</span>
+<a href="mailto:contact@whywedophysics.com">contact@whywedophysics.com</a>
+</footer>
+</main>
+<dialog id="about-dialog">
+<button class="close" aria-label="Close">×</button>
+<h2>Why We Do Physics</h2>
+<p>A bottom-up collection of short declarations from people who do physics.</p>
+<p>Add yours. Explore the map. Share a declaration.</p>
+</dialog>
+<dialog id="submit-dialog">
+<button class="close" aria-label="Close">×</button>
+<h2>Why do you do physics?</h2>
+<p id="form-message">Add your own response.</p>
+<form id="preview-form">
+<label>Name<input name="name" required maxlength="100" placeholder="How you’d like to be credited">
+</label>
+<label>Affiliation <span>(optional)</span>
+<input name="affiliation" maxlength="160" placeholder="University, lab, or independent">
+</label>
+<div class="phd-fields">
+<label>Stage <span>(optional)</span>
+<select name="stage">
+<option value="">—</option>
+<option>Undergraduate</option>
+<option>Master’s</option>
+<option>PhD</option>
+<option>Postdoc</option>
+<option>Faculty</option>
+<option>Research staff</option>
+<option>Industry</option>
+<option>Alumni</option>
+<option>Independent</option>
+<option>Other</option>
+</select>
+</label>
+<label>PhD year <span>(optional)</span>
+<input name="year" type="number" min="1900" max="2100" placeholder="Completed or expected">
+</label>
+</div>
+<label>Primary arXiv field <span>(optional)</span>
+<select name="category">
+<option value="">—</option>
+<option>astro-ph</option>
+<option>cond-mat</option>
+<option>gr-qc</option>
+<option>hep-ex</option>
+<option>hep-lat</option>
+<option>hep-ph</option>
+<option>hep-th</option>
+<option>math-ph</option>
+<option>nucl-ex</option>
+<option>nucl-th</option>
+<option>physics</option>
+<option>quant-ph</option>
+</select>
+</label>
+<div class="city-fields">
+<label>City <span>(optional)</span>
+<input name="city" maxlength="120" placeholder="City you would like to share">
+</label>
+<label>Country <span>(needed for map placement)</span>
+<input name="country" maxlength="120" placeholder="Country">
+</label>
+</div>
+<label class="checkbox">
+<input type="checkbox" name="mapOptIn">Show my city on the public map.</label>
+<label>arXiv identifier <span>(optional)</span>
+<input name="arxiv" maxlength="200" placeholder="Author profile or paper identifier">
+</label>
+<label>Why do you do physics?<textarea name="reason" required minlength="20" maxlength="140" rows="4" placeholder="One or two short sentences" aria-describedby="reason-count">
+</textarea>
+<span class="character-count" id="reason-count">0 / 140</span>
+</label>
+<label class="checkbox">
+<input type="checkbox" name="consent" required>I agree to display the information I provided on this site.</label>
+<label class="website-field" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off">
+</label>
+<button class="primary" type="submit">Submit</button>
+<p class="small">Draft preview · nothing is sent yet</p>
+</form>
+</dialog>
+<dialog id="flag-dialog">
+<button class="close" aria-label="Close">×</button>
+<h2>Flag this response</h2>
+<p>Reports go to the wall’s moderator. They are never shown publicly.</p>
+<form id="flag-form">
+<label>Reason<select id="flag-reason">
+<option>Inappropriate or harmful content</option>
+<option>Spam or unrelated content</option>
+<option>Attribution or privacy concern</option>
+</select>
+</label>
+<button class="primary">Send flag</button>
+</form>
+<p id="flag-status" role="status">
+</p>
+</dialog>
+</body>
+</html>
