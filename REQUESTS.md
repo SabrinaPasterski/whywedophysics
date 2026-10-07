@@ -47,6 +47,7 @@
 - [x] `City, Country` replaces the separate arXiv identifier field beside PhD year.
 - [x] The location field is labeled simply `City`; known institutions still fill its city-country value for map placement.
 - [x] The form labels the required career-level selector `Career Stage`.
+- [x] Optional PhD year uses the compact `YYYY` placeholder.
 - [x] Name field keeps the `Name` label and uses `As it will appear` as its placeholder.
 - [x] Submit form has no draft-preview explanatory line.
 - [x] About mission: “Physics is changing. The reasons why we do it will shape what it becomes. This project records those reasons, one short declaration at a time. Add yours.”
