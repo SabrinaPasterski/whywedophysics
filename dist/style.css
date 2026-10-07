@@ -96,3 +96,23 @@ html,body{max-width:100%;overflow-x:hidden}
  .map-canvas{min-width:100%;width:100%}
 }
 .credit>span{margin-top:4px;line-height:1.35}
+
+/* Keep the dot design with a larger hit area for touch and keyboard use. */
+.map-pin::before{content:"";position:absolute;inset:-9px;border-radius:50%}
+.map-pin.is-featured::before{inset:-7px}
+dialog{max-height:calc(100dvh - 32px);overflow-y:auto}
+input,textarea,select{font-size:16px}
+.reference-row{min-width:0;flex-wrap:wrap}.reference-row strong{overflow-wrap:anywhere;min-width:0}
+@media(max-width:850px){#clouds,#map-lines{display:none}.map-canvas{min-width:0}.map-heading>*{min-width:0}.map-toolbar{gap:12px}}
+@media(hover:none),(pointer:coarse){#clouds,#map-lines{display:none}}
+@media(max-width:550px){
+ header{flex-wrap:wrap;gap:12px 8px}nav{flex-wrap:wrap}nav button,.search-nav{min-height:44px}
+ .intro h1{font-size:clamp(42px,14vw,64px)}
+ .featured-nav button{min-width:44px;min-height:44px;padding:4px;font-size:28px}
+ .featured-wrap{padding:0 32px}.featured-nav{left:-8px;right:-8px}
+ .tile-bottom button{min-height:40px}.close{min-width:44px;min-height:44px}
+ .pager button{min-height:44px}.form-grid>*{min-width:0}
+ .reference-row button{min-height:44px}footer{flex-wrap:wrap;row-gap:12px}
+}
+
+@media(max-width:850px){.map-pin::before{inset:-8px}.map-pin.is-featured::before{inset:-4px}}

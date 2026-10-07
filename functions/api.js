@@ -19,8 +19,12 @@ export async function onRequest({request}) {
     if (contentType) init.headers = {'content-type': contentType};
   }
 
+  const retryWall = request.method === 'GET' && incoming.searchParams.get('action') === 'wall';
+  for (let attempt = 0; attempt < (retryWall ? 2 : 1); attempt++) {
   try {
-    let upstream = await fetch(upstreamUrl, init);
+    const attemptInit = retryWall ? {...init, signal: AbortSignal.timeout(8000)} : init;
+    let upstream = await fetch(upstreamUrl, attemptInit);
+    if (retryWall && !upstream.ok) throw new Error('Wall backend unavailable');
     if (request.method === 'POST' && upstream.status >= 300 && upstream.status < 400) {
       const location = upstream.headers.get('location');
       if (!location) throw new Error('Missing backend redirect');
@@ -30,19 +34,21 @@ export async function onRequest({request}) {
       }
       upstream = await fetch(resultUrl, {method: 'GET', redirect: 'follow'});
     }
-    if (request.method === 'GET' && !incomingCallback) {
+    if (request.method === 'GET' && (!incomingCallback || retryWall)) {
       const source = await upstream.text();
-      const prefix = `${PROXY_CALLBACK}(`;
+      const prefix = `${incomingCallback || PROXY_CALLBACK}(`;
       if (!source.startsWith(prefix) || !source.endsWith(');')) throw new Error('Invalid backend response');
       const payload = source.slice(prefix.length, -2);
       JSON.parse(payload);
-      return new Response(payload, {status: upstream.status, headers: {'cache-control': 'no-store', 'content-type': 'application/json; charset=utf-8', 'x-content-type-options': 'nosniff'}});
+      return new Response(incomingCallback ? source : payload, {status: upstream.status, headers: {'cache-control': 'no-store', 'content-type': incomingCallback ? 'application/javascript; charset=utf-8' : 'application/json; charset=utf-8', 'x-content-type-options': 'nosniff'}});
     }
     const headers = new Headers(upstream.headers);
     headers.set('cache-control', 'no-store');
     headers.set('x-content-type-options', 'nosniff');
     return new Response(upstream.body, {status: upstream.status, headers});
   } catch {
+    if (retryWall && attempt === 0) continue;
     return new Response('Backend unavailable', {status: 502, headers: {'cache-control': 'no-store'}});
+  }
   }
 }

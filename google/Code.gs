@@ -119,7 +119,7 @@ function json(value) { return ContentService.createTextOutput(JSON.stringify(val
 function notifyModerator_(entry, sheetUrl) {
   try {
     MailApp.sendEmail({
-      to: MODERATION_EMAIL,
+      to: PropertiesService.getScriptProperties().getProperty('MODERATION_EMAIL') || MODERATION_EMAIL,
       subject: 'New Why We Do Physics submission \u2014 ' + entry.id,
       body: [
         'A new response is waiting for review.',
@@ -140,7 +140,7 @@ function notifyModerator_(entry, sheetUrl) {
 
 function doPost(e) {
   const p = (e && e.parameter) || {};
-  let lock;
+  let lock, savedId = '';
   try {
     if (p.action !== 'submit' || p.website) throw new Error('Invalid request.');
     const name = clean(p.name, 100), affiliation = clean(p.affiliation, 160);
@@ -167,24 +167,43 @@ function doPost(e) {
       if (existing) return json({ok: true, id: id, replayed: true});
     }
     const row = [false, false, new Date(), name, affiliation, stage, year, category, reason, city, country, mapOptIn ? MAP_PERMISSION : '', consent ? CONSENT : '', id, '', '', ''];
+    // Persist the complete entry before geocoding, email, or formatting. The same
+    // submission ID lets a retry confirm a save after a lost network response.
+    sheet.insertRowAfter(1);
+    sheet.getRange(2, 1, 1, row.length).setValues([row]);
+    SpreadsheetApp.flush();
+    savedId = id;
+    lock.releaseLock();
+
+    let place = null;
     if (mapOptIn) {
       try {
         const result = Maps.newGeocoder().geocode(city + ', ' + country);
-        if (result.status === 'OK' && result.results.length) {
-          const place = result.results[0];
-          row[14] = place.geometry.location.lat;
-          row[15] = place.geometry.location.lng;
-          row[16] = place.formatted_address;
-        }
-      } catch (err) { console.log('City geocoding unavailable; coordinates can be added during moderation.'); }
+        if (result.status === 'OK' && result.results.length) place = result.results[0];
+      } catch (err) { console.log('Response saved; city geocoding can be completed during moderation.'); }
     }
-    sheet.insertRowAfter(1);
-    sheet.getRange(2, 1, 1, row.length).setValues([row]);
-    sheet.getRange(2, 3).setNumberFormat(TIMESTAMP_FORMAT);
-    sheet.getRange(2, 1, 1, 2).insertCheckboxes().setValues([[false, false]]);
+    // New submissions can shift the row while optional work runs. Find the ID
+    // again under the lock rather than writing coordinates to somebody else's entry.
+    try {
+      if (lock.tryLock(10000)) {
+        const idColumn = RESPONSE_HEADERS.indexOf('Response ID') + 1;
+        const ids = sheet.getRange(2, idColumn, sheet.getLastRow() - 1, 1).getDisplayValues();
+        const index = ids.findIndex(values => values[0] === id);
+        if (index >= 0) {
+          const savedRow = index + 2;
+          sheet.getRange(savedRow, 3).setNumberFormat(TIMESTAMP_FORMAT);
+          const moderation = sheet.getRange(savedRow, 1, 1, 2), decisions = moderation.getValues();
+          moderation.insertCheckboxes().setValues(decisions);
+          if (place) sheet.getRange(savedRow, 15, 1, 3).setValues([[place.geometry.location.lat, place.geometry.location.lng, place.formatted_address]]);
+          SpreadsheetApp.flush();
+        }
+      }
+    } catch (err) { console.log('Response saved; optional sheet formatting or coordinates pending: ' + err.message); }
+    finally { if (lock.hasLock()) lock.releaseLock(); }
     notifyModerator_({id, name, affiliation, reason}, ss.getUrl());
     return json({ok: true, id: id});
   } catch (err) {
+    if (savedId) { console.log('Response saved; optional processing failed: ' + err.message); return json({ok: true, id: savedId}); }
     const safe = ['Invalid request.','Complete the required fields.','Check the PhD year.','Add both city and country for map placement.','The site is busy. Please try again.'];
     return json({ok: false, error: safe.includes(err.message) ? err.message : 'Could not save the response.'});
   } finally { if (lock && lock.hasLock()) lock.releaseLock(); }
@@ -196,8 +215,11 @@ function doGet(e) {
   let result, lock;
   try {
     if (!/^[a-f0-9-]{36}$/.test(p.visitor || '')) throw new Error('Invalid visitor.');
-    lock = LockService.getScriptLock();
-    if (!lock.tryLock(10000)) throw new Error('The wall is busy. Please try again.');
+    // Wall reads do not contend with submission/reaction writes.
+    if (p.action !== 'wall') {
+      lock = LockService.getScriptLock();
+      if (!lock.tryLock(10000)) throw new Error('The wall is busy. Please try again.');
+    }
     const props = PropertiesService.getScriptProperties(), ss = SpreadsheetApp.openById(props.getProperty('SHEET_ID'));
     const sheet = ss.getSheetByName(props.getProperty('RESPONSE_SHEET'));
     const all = sheet.getDataRange().getValues(), headers = all.shift();
@@ -205,8 +227,8 @@ function doGet(e) {
     const eligible = [];
     all.forEach((row, i) => {
       if (get(row, 'Approved') !== true || get(row, 'Display permission') !== CONSENT) return;
-      let id = String(get(row, 'Response ID'));
-      if (!id) { id = Utilities.getUuid(); sheet.getRange(i + 2, column('Response ID') + 1).setValue(id); }
+      const id = String(get(row, 'Response ID') || '');
+      if (!id) return; // Every submitted entry gets its ID in the durable write.
       const mapOptIn = get(row, 'Map permission') === MAP_PERMISSION;
       eligible.push({id, illustrative: get(row, 'Illustrative') === true, date: publicDate(get(row, 'Timestamp')), name: clean(get(row, 'Name'), 100), affiliation: clean(get(row, 'Affiliation'), 160), stage: clean(get(row, 'Career stage'), 40), category: clean(get(row, 'arXiv category'), 30), year: clean(get(row, 'PhD year'), 4), reason: clean(get(row, 'Why do you do physics?'), 140), city: mapOptIn ? clean(get(row, 'City'), 120) : '', country: mapOptIn ? clean(get(row, 'Country'), 120) : '', lat: !mapOptIn || get(row, 'Latitude') === '' ? null : Number(get(row, 'Latitude')), lng: !mapOptIn || get(row, 'Longitude') === '' ? null : Number(get(row, 'Longitude'))});
     });

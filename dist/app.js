@@ -5,7 +5,7 @@ const CATEGORY_OPTIONS=[...COMMON_CATEGORY_OPTIONS,...MORE_CATEGORY_OPTIONS];
 const STAGE_OPTIONS=['Undergrad','Master’s','PhD','Postdoc','Faculty','Research Staff','Industry','Alumni'];
 function readStore(key,fallback){try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}}
 function saveStore(key,value){try{localStorage.setItem(key,JSON.stringify(value))}catch{}}
-let config={...readStore('physics-wall-config',{}),...window.WALL_CONFIG}, rows=readStore('physics-wall-cache',[]), backendConnected=false, flagId=null;
+let config={...readStore('physics-wall-config',{}),...window.WALL_CONFIG}, rows=[], backendConnected=false, flagId=null;
 let voter=readStore('physics-wall-voter',null);if(!/^[a-f0-9-]{36}$/.test(String(voter||''))){voter=crypto.randomUUID();saveStore('physics-wall-voter',voter)}
 let featuredOffset=0, activeCategories=new Set(), activeStages=new Set(), fieldFiltersOpen=false, sortMode='latest', page=0, pageCount=1, selectedMapResponseId=null;
 let featuredPaused=false;
@@ -79,10 +79,42 @@ function render(){
  if(!list.length&&query)wall.append(text('p','No responses match your search.'));
  const pager=document.querySelector('.pager');pager.hidden=pageCount<=1;$('#page-count').textContent=`${page+1}/${pageCount}`;$('#page-prev').disabled=page===0;$('#page-next').disabled=page>=pageCount-1;
  renderClouds(list,featuredRows[0]?.id||null);
+ if(!backendConnected&&!rows.length){$('#response-tally').textContent='Loading responses…';$('#map-status').textContent='Loading map…'}
  requestAnimationFrame(fitVisibleTiles);
  const shared=decodeURIComponent((location.hash.match(/^#story=(.*)$/)||[])[1]||'');if(shared)queueMicrotask(()=>document.getElementById('tile-'+CSS.escape(shared))?.scrollIntoView({block:'center'}));
 }
-async function load(){if(!config.endpointUrl){backendConnected=false;render();return}try{const data=await api('wall');backendConnected=true;rows=data.rows;saveStore('physics-wall-cache',rows);render();$('#status').textContent=''}catch{backendConnected=false;render();$('#status').textContent=''}}
+const wallCacheKey='physics-wall-cache-v2';
+let wallRequest=null,loadedEndpoint=null;
+function validWallRows(items){return Array.isArray(items)&&items.every(r=>r&&typeof r.id==='string'&&typeof r.reason==='string')}
+function load(){
+ const endpoint=config.endpointUrl;
+ if(!endpoint){loadedEndpoint=null;rows=[];backendConnected=false;render();return Promise.resolve()}
+ if(wallRequest?.endpoint===endpoint)return wallRequest.promise;
+ if(loadedEndpoint!==endpoint){
+  const cached=readStore(wallCacheKey,null);
+  rows=cached?.endpoint===endpoint&&cached.visitor===voter&&validWallRows(cached.rows)?cached.rows:[];
+  loadedEndpoint=endpoint;backendConnected=false;render();
+ }
+ if(!rows.length){$('#status').textContent='Loading responses…';$('#response-tally').textContent='Loading responses…'}
+ const request={endpoint,promise:null};wallRequest=request;
+ request.promise=(async()=>{
+  try{
+   const data=await api('wall');
+   if(!validWallRows(data.rows))throw new Error('Invalid wall response');
+   if(config.endpointUrl!==endpoint)return;
+   const changed=JSON.stringify(rows)!==JSON.stringify(data.rows);
+   backendConnected=true;rows=data.rows;
+   saveStore(wallCacheKey,{endpoint,visitor:voter,savedAt:Date.now(),rows});
+   if(changed||!rows.length)render();$('#status').textContent='';
+  }catch{
+   if(config.endpointUrl!==endpoint)return;
+   backendConnected=false;
+   $('#status').textContent=rows.length?'':'Responses could not load. Retrying shortly…';
+   if(!rows.length)$('#response-tally').textContent='Responses temporarily unavailable';
+  }finally{if(wallRequest===request)wallRequest=null}
+ })();
+ return request.promise;
+}
 for(const button of document.querySelectorAll('.close'))button.onclick=()=>button.closest('dialog').close();for(const dialog of document.querySelectorAll('dialog'))dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close()}});
 $('#contribute').onclick=()=>$('#submit-dialog').showModal();
 $('#submit-form').onsubmit=async e=>{
@@ -107,7 +139,7 @@ function renderClouds(list,featuredId){
  function clearCloud(){root.replaceChildren();lines.replaceChildren()}
  function showCloud(r){
   clearCloud();
-  if(!r)return;
+  if(!r||!matchMedia('(min-width: 851px) and (hover: hover) and (pointer: fine)').matches)return;
   const px=(r.lng+180)/360*100,py=(90-r.lat)/180*100,x=Math.min(72,Math.max(1,px+2)),y=py<50?58:4,edgeY=py<50?y:y+30;
   const cloud=document.createElement('button');cloud.className='cloud';cloud.style.left=x+'%';cloud.style.top=y+'%';
   cloud.append(text('blockquote',r.reason.length>100?r.reason.slice(0,97)+'…':r.reason),text('span',`${r.name} · ${r.city}, ${r.country}`));
@@ -117,16 +149,14 @@ function renderClouds(list,featuredId){
   for(const [k,v]of Object.entries({x1:px*10,y1:py*5,x2:(x+12.5)*10,y2:edgeY*5,stroke:'#0056b3','stroke-width':'1',opacity:'.28','stroke-linecap':'round'}))line.setAttribute(k,v);
   lines.append(line);root.append(cloud);
  }
- const restoreSelected=()=>showCloud(located.find(r=>r.id===selectedMapResponseId));
- const positions=new Map();
+ const restoreSelected=clearCloud;
  for(const r of located){
-  const key=[r.lat,r.lng].join(','),index=positions.get(key)||0;positions.set(key,index+1);
-  const angle=index*2.39996,radius=index?Math.min(1.25,.34*Math.sqrt(index)):0;
-  const pin=document.createElement('button');pin.className='map-pin'+(r.id===featuredId?' is-featured':'');pin.style.left=((r.lng+180)/360*100+Math.cos(angle)*radius)+'%';pin.style.top=((90-r.lat)/180*100+Math.sin(angle)*radius)+'%';
-  pin.setAttribute('aria-label',`${r.name||'Anonymous'} · ${r.city}, ${r.country}`);pin.title=pin.getAttribute('aria-label');
+  const left=(r.lng+180)/360*100,top=(90-r.lat)/180*100;
+  const pin=document.createElement('button');pin.className='map-pin'+(r.id===featuredId?' is-featured':'');pin.style.left=left+'%';pin.style.top=top+'%';
+  pin.setAttribute('aria-label',`${r.name||'Anonymous'} · ${r.city}, ${r.country}`);pin.setAttribute('aria-controls','featured');pin.setAttribute('aria-pressed',String(r.id===featuredId));
   pin.addEventListener('pointerenter',()=>showCloud(r));pin.addEventListener('pointerleave',restoreSelected);
   pin.addEventListener('focus',()=>showCloud(r));pin.addEventListener('blur',restoreSelected);
-  pin.onclick=e=>{e.stopPropagation();selectedMapResponseId=r.id;if(!r.illustrative){const carouselRows=rows.filter(item=>!item.illustrative),next=carouselRows.findIndex(item=>item.id===r.id);if(next>=0)featuredOffset=next}render()};
+  pin.onclick=e=>{e.stopPropagation();selectedMapResponseId=null;if(!r.illustrative){const carouselRows=rows.filter(item=>!item.illustrative),next=carouselRows.findIndex(item=>item.id===r.id);if(next>=0)featuredOffset=next}render()};
   pins.append(pin);
  }
  restoreSelected();
