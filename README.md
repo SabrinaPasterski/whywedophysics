@@ -49,7 +49,7 @@ Google Sheets version history is supplemented by a private daily Drive copy: 90 
 
 ## Public behavior
 
-- One featured declaration appears beside the question, with previous and next controls.
+- One featured declaration appears beside the question, changes automatically among approved responses, and retains previous and next controls. Rotation pauses while the carousel is hovered or focused.
 - Illustrative Sheet rows stay out of the featured carousel.
 - All declaration cards have a fixed height.
 - The map includes only opted-in city locations; pins are always visible and one card appears on hover, focus, or tap.

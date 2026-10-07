@@ -32,6 +32,7 @@
 - [x] Illustrative rows are excluded from the rotating top carousel.
 - [x] Previous and next arrows sit outside the featured card.
 - [x] Featured-card arrows are grey and disabled when there is no previous or next real response.
+- [x] The upper carousel automatically chooses a different approved response every nine seconds and pauses while hovered or focused; arrows remain available.
 - [x] No print control, repeated title, map title, separator, or explanatory map copy.
 - [x] Answer colors are split roughly evenly between black and PaperView blue `#0056b3`.
 - [x] Cards are fixed height.
