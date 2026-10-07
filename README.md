@@ -12,7 +12,7 @@ python3 serve.py --port 8768
 
 Open `http://localhost:8768`.
 
-The preview server serves `dist/` and relays `/api` to the same Apps Script backend as Cloudflare, so approved declarations and backend interactions match production. Local submissions reach the real moderation queue. In production, a temporary backend outage can display the last successful approved response data cached by that browser.
+The preview server serves `dist/` and relays `/api` to the same Apps Script backend as Cloudflare, returning ordinary JSON to the browser so approved declarations and backend interactions match production. Local submissions reach the real moderation queue. In production, a temporary backend outage can display the last successful approved response data cached by that browser.
 
 ## Submissions and moderation
 
@@ -24,7 +24,7 @@ The public form is part of the site. A private Google Sheet owned by `ai4theory@
    If the Sheet already exists, run `setupBackups()` once to install the private daily Google Drive backup.
    Run `migrateModerationSheet()` after upgrading an existing response Sheet to the current headers.
 4. Deploy as a Web app, executing as the owner, with access set to **Anyone**.
-5. Put the deployment URL ending in `/exec` in `dist/config.js` as `endpointUrl`.
+5. Put the deployment URL ending in `/exec` in `functions/api.js` as `APPS_SCRIPT_URL`; keep `dist/config.js` pointed at the same-origin `/api` route.
 6. Submit a test response. It must remain absent from the public wall until **Approved** is checked in the private Responses sheet.
 
 The live backend sends `ai4theory@gmail.com` a best-effort moderation alert after each successfully saved submission, with its ID, contributor, declaration, and a link to the private Sheet. Google Apps Script sends the email without a paid service. If email delivery fails, the response remains safely stored in the moderation queue. The Mail permission is approved for the production Apps Script deployment.

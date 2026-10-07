@@ -72,14 +72,14 @@ The production backend sends `ai4theory@gmail.com` a moderation alert after savi
    For an existing Sheet created before backups were added, run `setupBackups()` once as well.
    Run `migrateModerationSheet()` after upgrading an existing response Sheet to the current headers.
 4. Deploy as a web app: execute as the owner and allow **Anyone** to call it.
-5. Put the `/exec` deployment URL in `dist/config.js` as `endpointUrl`.
+5. Put the `/exec` deployment URL in `functions/api.js` as `APPS_SCRIPT_URL`; keep `dist/config.js` pointed at the same-origin `/api` route.
 6. Submit a test entry. It must stay off the wall until **Approved** is checked.
 
 When updating an existing deployment after adding moderation email alerts, create a new web-app version and approve the Mail permission requested by Google. Keep the existing `/exec` URL so the public site configuration does not change.
 
 Production was migrated to the 17-column moderation schema and Apps Script Version 3 on October 7, 2026. `Approved` and `Illustrative` are the first two columns, `Timestamp` is column C with a compact date-time display, and the public `/exec` URL is unchanged.
 
-The Apps Script deployment URL is public by design and is stored in `functions/api.js`; it is not a credential. The browser calls the same-origin `/api` route so Chrome does not need to load Apps Script as a third-party script. Never commit Google credentials or make the Sheet public.
+The Apps Script deployment URL is public by design and is stored in `functions/api.js`; it is not a credential. The browser fetches JSON from the same-origin `/api` route, while the relay handles Apps Script's legacy JSONP response server-side. Chrome therefore never executes a third-party callback script. Never commit Google credentials or make the Sheet public.
 
 ## Cloudflare setup
 

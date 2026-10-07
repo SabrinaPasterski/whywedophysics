@@ -86,6 +86,7 @@
 - [x] The production endpoint configuration overrides any legacy browser-local backend URL so an existing visitor cannot stay pinned to an old Apps Script deployment.
 - [x] Invalid legacy browser visitor IDs are regenerated so the backend cannot reject a returning visitor while the page silently keeps stale cached responses.
 - [x] Relay wall and submission requests through a same-origin Cloudflare Pages Function so Chrome cannot reject the Apps Script response as a third-party script.
+- [x] Replace browser-executed JSONP callbacks with ordinary same-origin JSON fetches while retaining compatibility for already-open old tabs.
 - [x] Keep declaration cards fixed-height and reduce only the declaration font as needed so every card's text and metadata stay inside it.
 - [x] Apply fixed-card text fitting to the upper carousel as well as every response card; carousel content never overflows upward.
 - [x] Reserve the same fixed lower block for metadata, divider, and actions on every response and carousel card; only declaration font size changes to fit.
