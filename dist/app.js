@@ -39,7 +39,6 @@ function makeTile(r,i,demo,prefix){
  const location=[r.city,r.country].filter(Boolean).join(', ');if(location)credit.append(text('span',location));
  const arxiv=arxivLink(r.arxiv);
  if(arxiv){const link=text('a',arxiv.includes('/a/')?'arXiv profile':'arXiv paper','arxiv');link.href=arxiv;link.target='_blank';link.rel='noopener noreferrer';credit.append(link)}
- tile.append(credit);
  const tagValues=[r.category,r.stage].filter(Boolean);
  if(tagValues.length){const tags=document.createElement('div');tags.className='tags';tagValues.forEach(value=>tags.append(text('span',value)));tile.append(tags)}
  const bottom=document.createElement('div');bottom.className='tile-bottom';
@@ -48,13 +47,13 @@ function makeTile(r,i,demo,prefix){
  heart.onclick=async()=>{heart.disabled=true;try{const result=await api('heart',{id:r.id,liked:!liked});r.hearts=result.hearts;r.liked=result.liked;render();$('#status').textContent=''}catch(e){$('#status').textContent=e.message;heart.disabled=false}};
  const share=document.createElement('button');share.className='share';share.innerHTML=svgShare;share.title='Share';share.setAttribute('aria-label',`Share response by ${r.name||'Anonymous'}`);share.onclick=()=>shareStory(r);
  const flag=document.createElement('button');flag.className='flag';flag.innerHTML=svgFlag;flag.title='Flag';flag.setAttribute('aria-label',`Flag response by ${r.name}`);flag.onclick=()=>{flagId=r.id;$('#flag-status').textContent='';$('#flag-form').hidden=false;$('#flag-dialog').showModal()};
- bottom.append(heart,share,flag);tile.append(bottom);return tile;
+ bottom.append(heart,share,flag);const lower=document.createElement('div');lower.className='tile-lower';lower.append(credit,bottom);tile.append(lower);return tile;
 }
 function fitTileText(tile){
  const quote=tile.querySelector('blockquote');if(!quote)return;
  quote.style.fontSize='';
  let size=parseFloat(getComputedStyle(quote).fontSize),guard=24;
- while(tile.scrollHeight>tile.clientHeight+1&&size>18&&guard--){size-=1;quote.style.fontSize=`${size}px`}
+ while((quote.scrollHeight>quote.clientHeight+1||tile.scrollHeight>tile.clientHeight+1)&&size>14&&guard--){size-=1;quote.style.fontSize=`${size}px`}
 }
 function fitVisibleTiles(){document.querySelectorAll('.tile').forEach(fitTileText)}
 function toggleSelection(set,value){set.has(value)?set.delete(value):set.add(value);page=0;render()}

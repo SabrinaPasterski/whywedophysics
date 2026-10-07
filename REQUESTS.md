@@ -25,6 +25,7 @@
 - [x] Keep the blue φ favicon as the small `why-phy` mark; do not replace it with WiPhy branding.
 - [x] Use a larger blue φ-and-stop mark within the square: position the φ slightly lower, shorten its stem, then use a compact flat-sided extension after a gap equal to the extension's height so it can also read as a question. The lower extension is a 4×4 square matching the φ stem width, with an exact 4-unit gap. Verified in the local full-size SVG preview.
 - [x] Both brand lines have the same rendered width using interletter spacing in Safari and Chrome.
+- [x] Keep both brand lines equal in width, slightly narrow the lockup, and reduce the vertical gap between them.
 - [x] Brand spacing is CSS-only and stable on first paint; `a community portrait` does not wobble after load or fall back to word-only justification in Safari.
 - [x] Mobile keeps the full world map in view without a horizontal scrollbar, with the header, hero, cards, search, and footer fitting a 390px viewport.
 - [x] Header and footer rules have the same inset width.
@@ -83,6 +84,7 @@
 - [x] Relay wall and submission requests through a same-origin Cloudflare Pages Function so Chrome cannot reject the Apps Script response as a third-party script.
 - [x] Keep declaration cards fixed-height and reduce only the declaration font as needed so every card's text and metadata stay inside it.
 - [x] Apply fixed-card text fitting to the upper carousel as well as every response card; carousel content never overflows upward.
+- [x] Reserve the same fixed lower block for metadata, divider, and actions on every response and carousel card; only declaration font size changes to fit.
 - [x] Remove the intermediate-width map canvas minimum that caused an internal horizontal scrollbar in the native browser.
 - [x] Localhost uses a local `/api` relay so it displays the same approved declarations as the live site.
 - [x] Store illustrative responses as normal moderated Sheet rows so they can be approved, unapproved, or removed like any other entry.
