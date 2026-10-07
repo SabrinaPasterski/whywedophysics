@@ -1,1 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#172eab"/><text x="32" y="45" text-anchor="middle" fill="white" font-size="43" font-family="Georgia">φ</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <clipPath id="phi-crop"><rect width="64" height="46.5"/></clipPath>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="#172eab"/>
+  <text x="32" y="37.5" text-anchor="middle" fill="white" font-size="45" font-family="Georgia, 'Times New Roman', serif" clip-path="url(#phi-crop)">φ</text>
+  <rect x="29.75" y="51" width="4.5" height="4.5" fill="white"/>
+</svg>

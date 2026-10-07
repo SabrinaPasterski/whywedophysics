@@ -22,6 +22,7 @@
 
 - [x] Compact header: blue `WHY WE DO PHYSICS` over lowercase `a community portrait`.
 - [x] Keep the blue φ favicon as the small `why-phy` mark; do not replace it with WiPhy branding.
+- [x] Use a larger blue φ-and-stop mark within the square: position the φ slightly lower, shorten its stem, then use a compact flat-sided extension after a gap equal to the extension's height so it can also read as a question. Verified in the local full-size SVG preview.
 - [x] Both brand lines have the same rendered width using interletter spacing in Safari and Chrome.
 - [x] Brand spacing is CSS-only and stable on first paint; `a community portrait` does not wobble after load or fall back to word-only justification in Safari.
 - [x] Mobile keeps the full world map in view without a horizontal scrollbar, with the header, hero, cards, search, and footer fitting a 390px viewport.
