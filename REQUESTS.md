@@ -12,8 +12,8 @@
 - [x] Career stage row is undergrad, master’s, PhD, postdoc, faculty, alumni.
 - [x] Per-declaration sharing, hearts, and private flags.
 - [x] Contact address shown as `contact@whywedophysics.com`.
-- [ ] Configure that address through Cloudflare Email Routing to the AI4Theory mailbox destination.
-- [ ] Connect the production domain and deploy through Cloudflare Pages; keep Bluehost as registrar only.
+- [x] Configure that address through Cloudflare Email Routing to the AI4Theory mailbox destination.
+- [x] Connect the production domain and deploy through Cloudflare Pages; keep Bluehost as registrar only.
 
 ## Interface
 
@@ -64,7 +64,7 @@
 
 ## Repository and operations
 
-- [ ] Create a standalone GitHub repository and place its checkout at `Research/WhyWeDoPhysics`.
-- [ ] Configure the Apps Script endpoint and verify a moderated live submission.
+- [x] Create a standalone GitHub repository and place its checkout at `Research/WhyWeDoPhysics`.
+- [x] Configure the Apps Script endpoint and verify a moderated live submission.
 - [ ] Verify the production domain, HTTPS, sharing, map permission, and contact forwarding.
 - [x] Document the private data model, moderation, backups, free-tier constraint, and Cloudflare deployment path.

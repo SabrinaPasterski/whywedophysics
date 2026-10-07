@@ -2,6 +2,8 @@
 
 Physics is changing. The reasons why we do it will shape what it becomes. This project records those reasons, one short declaration at a time. Add yours.
 
+Live site: [whywedophysics.com](https://whywedophysics.com)
+
 ## Preview
 
 ```sh
@@ -55,6 +57,8 @@ Google Sheets version history is supplemented by a private daily Drive copy: 90 
 ## Hosting
 
 `dist/` is the complete static site and deploys from this GitHub repository to Cloudflare Pages on the Free plan. Work happens on `debug`; `./deploy.sh` merges it into the production `main` branch, whose push triggers Cloudflare. Bluehost remains the domain registrar only. The site does not require the PhysCode droplet or a paid database. Cloudflare also supplies DNS, HTTPS, and email routing for `contact@whywedophysics.com`.
+
+Production source: [github.com/SabrinaPasterski/whywedophysics](https://github.com/SabrinaPasterski/whywedophysics). Cloudflare serves the apex and `www` domains from the same Pages project; GitHub pushes to `main` deploy automatically.
 
 The complete data model, moderation process, free-tier constraint, and deployment checklist are in [`docs/DATA_AND_DEPLOYMENT.md`](docs/DATA_AND_DEPLOYMENT.md).
 

@@ -8,6 +8,8 @@
 - **Private data:** a Google Sheet created and owned by `ai4theory@gmail.com`, reached through a Google Apps Script web app.
 - **Contact:** Cloudflare Email Routing sends `contact@whywedophysics.com` to the same verified mailbox used by `contact@ai4theory.org`.
 
+Production is connected to the public repository at `https://github.com/SabrinaPasterski/whywedophysics`. Cloudflare Pages serves both `https://whywedophysics.com` and `https://www.whywedophysics.com`; the Pages fallback remains `https://whywedophysics.pages.dev`.
+
 No paid Cloudflare, Google, database, email, or droplet service is required. Do not select a paid Cloudflare plan, buy a Workers add-on, add a billing method, or move this site onto the PhysCode droplet.
 
 ## What is saved
@@ -74,6 +76,8 @@ The Apps Script deployment URL is public by design, but it is not a credential. 
 4. Attach `whywedophysics.com` and `www.whywedophysics.com`.
 5. At Bluehost, replace only the domain nameservers with the two nameservers Cloudflare assigns. Do not purchase or enable Bluehost hosting, email, SSL, or other add-ons.
 6. Enable Cloudflare Email Routing for `contact@whywedophysics.com` using the already verified AI4Theory mailbox destination.
+
+The live configuration uses Cloudflare's managed MX, DKIM, and SPF records. The catch-all rule remains disabled; only the explicit `contact@whywedophysics.com` route forwards to the verified AI4Theory destination.
 
 Cloudflare supplies HTTPS automatically after DNS becomes active.
 
