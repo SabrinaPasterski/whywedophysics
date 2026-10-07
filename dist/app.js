@@ -6,7 +6,7 @@ const STAGE_OPTIONS=['Undergrad','Master’s','PhD','Postdoc','Faculty','Alumni'
 function readStore(key,fallback){try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}}
 function saveStore(key,value){try{localStorage.setItem(key,JSON.stringify(value))}catch{}}
 let config={...readStore('physics-wall-config',{}),...window.WALL_CONFIG}, rows=readStore('physics-wall-cache',[]), backendConnected=false, flagId=null;
-let voter=readStore('physics-wall-voter',null);if(!voter){voter=crypto.randomUUID();saveStore('physics-wall-voter',voter)}
+let voter=readStore('physics-wall-voter',null);if(!/^[a-f0-9-]{36}$/.test(String(voter||''))){voter=crypto.randomUUID();saveStore('physics-wall-voter',voter)}
 let featuredOffset=0, activeCategories=new Set(), activeStages=new Set(), fieldFiltersOpen=false, sortMode='latest', page=0, pageCount=1, selectedMapResponseId=null;
 let institutionIndex=new Map(),institutionsLoading=null,autoFilledPlace=null;
 function pageSize(){const columns=getComputedStyle($('#wall')).gridTemplateColumns.split(/\s+/).filter(Boolean).length||1;return columns*2}
