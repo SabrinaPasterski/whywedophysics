@@ -146,16 +146,16 @@
 <input name="arxiv" maxlength="200" placeholder="Author profile or paper identifier">
 </label>
 </div>
-<label class="checkbox map-opt-in">
-<input type="checkbox" name="mapOptIn" aria-controls="location-fields" aria-expanded="false">Show my city on the public map.</label>
-<div class="city-fields" id="location-fields" hidden>
-<label>City
+<div class="city-fields" id="location-fields">
+<label>City <span>(optional)</span>
 <input name="city" maxlength="120" autocomplete="address-level2" placeholder="City">
 </label>
-<label>Country
+<label>Country <span>(optional)</span>
 <input name="country" maxlength="120" autocomplete="country-name" placeholder="Country">
 </label>
 </div>
+<label class="checkbox map-opt-in">
+<input type="checkbox" name="mapOptIn">Show my city on the public map.</label>
 <label class="checkbox">
 <input type="checkbox" name="consent" required>I agree to display the information I provided on this site.</label>
 <label class="website-field" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off">

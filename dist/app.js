@@ -84,7 +84,7 @@ $('#featured-prev').onclick=()=>stepFeatured(-1);$('#featured-next').onclick=()=
 function setSort(mode){sortMode=mode;page=0;render()}$('#sort-latest').onclick=()=>setSort('latest');$('#sort-liked').onclick=()=>setSort('liked');
 function setPage(next){page=next;render();document.querySelector('.wall-section').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'})}$('#page-prev').onclick=()=>setPage(Math.max(0,page-1));$('#page-next').onclick=()=>setPage(page+1);
 const reasonInput=document.querySelector('textarea[name="reason"]'),reasonCount=$('#reason-count'),mapOptIn=document.querySelector('input[name="mapOptIn"]'),locationFields=$('#location-fields');
-function syncMapFields(){const enabled=mapOptIn.checked;locationFields.hidden=!enabled;mapOptIn.setAttribute('aria-expanded',String(enabled));for(const input of locationFields.querySelectorAll('input'))input.required=enabled}
+function syncMapFields(){const enabled=mapOptIn.checked;for(const input of locationFields.querySelectorAll('input'))input.required=enabled}
 reasonInput.oninput=()=>reasonCount.textContent=`${reasonInput.value.length} / 140`;mapOptIn.onchange=syncMapFields;syncMapFields();
 // Refresh the decorative constellation after the page and its controls are ready.
 render();

@@ -40,7 +40,8 @@
 - [x] arXiv and career-stage chips support multiple simultaneous selections.
 - [x] Links have no underlines; sharing uses an icon.
 - [x] Header omits redundant site sharing; card icons share individual declarations.
-- [x] Submit form leads with the 140-character declaration, groups metadata into compact rows, and reveals required city/country fields only after map permission is selected.
+- [x] Submit form leads with the 140-character declaration and groups metadata into compact rows.
+- [x] City and country stay visible in the form; selecting public-map permission makes both required.
 - [x] Name field keeps the `Name` label and uses `As it will appear` as its placeholder.
 - [x] About mission: “Physics is changing. The reasons why we do it will shape what it becomes. This project records those reasons, one short declaration at a time. Add yours.”
 - [x] The About call to action stays on its own line and uses the same font and grey color as the body; the heading remains unchanged.
