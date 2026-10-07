@@ -49,6 +49,13 @@ function makeTile(r,i,demo,prefix){
  const flag=document.createElement('button');flag.className='flag';flag.innerHTML=svgFlag;flag.title='Flag';flag.setAttribute('aria-label',`Flag response by ${r.name}`);flag.onclick=()=>{flagId=r.id;$('#flag-status').textContent='';$('#flag-form').hidden=false;$('#flag-dialog').showModal()};
  bottom.append(heart,share,flag);tile.append(bottom);return tile;
 }
+function fitTileText(tile){
+ const quote=tile.querySelector('blockquote');if(!quote)return;
+ quote.style.fontSize='';
+ let size=parseFloat(getComputedStyle(quote).fontSize),guard=24;
+ while(tile.scrollHeight>tile.clientHeight+1&&size>18&&guard--){size-=1;quote.style.fontSize=`${size}px`}
+}
+function fitVisibleTiles(){document.querySelectorAll('.tile').forEach(fitTileText)}
 function toggleSelection(set,value){set.has(value)?set.delete(value):set.add(value);page=0;render()}
 function renderFilters(){const root=$('#filter-chips');root.replaceChildren();const common=document.createElement('div');common.className='filter-chip-row';for(const value of COMMON_CATEGORY_OPTIONS){const chip=text('button',value,'filter-chip');chip.type='button';chip.setAttribute('aria-pressed',String(activeCategories.has(value)));chip.onclick=()=>toggleSelection(activeCategories,value);common.append(chip)}const expand=text('button',fieldFiltersOpen?'−':'+','filter-expand');expand.type='button';expand.setAttribute('aria-expanded',String(fieldFiltersOpen));expand.setAttribute('aria-label',fieldFiltersOpen?'Hide more arXiv fields':'Show more arXiv fields');expand.onclick=()=>{fieldFiltersOpen=!fieldFiltersOpen;if(!fieldFiltersOpen)MORE_CATEGORY_OPTIONS.forEach(value=>activeCategories.delete(value));page=0;render()};common.append(expand);root.append(common);if(fieldFiltersOpen){const more=document.createElement('div');more.className='filter-chip-row filter-field-row';for(const value of MORE_CATEGORY_OPTIONS){const chip=text('button',value,'filter-chip');chip.type='button';chip.setAttribute('aria-pressed',String(activeCategories.has(value)));chip.onclick=()=>toggleSelection(activeCategories,value);more.append(chip)}root.append(more)}const stages=document.createElement('div');stages.className='filter-chip-row filter-stage-row';if(activeCategories.size||activeStages.size){const clear=text('button','clear','filter-clear');clear.type='button';clear.onclick=()=>{activeCategories.clear();activeStages.clear();fieldFiltersOpen=false;page=0;render()};stages.append(clear)}for(const value of STAGE_OPTIONS){const chip=text('button',value,'filter-chip');chip.type='button';chip.setAttribute('aria-pressed',String(activeStages.has(value)));chip.onclick=()=>toggleSelection(activeStages,value);stages.append(chip)}root.append(stages)}
 function render(){
@@ -71,6 +78,7 @@ function render(){
  if(!list.length&&query)wall.append(text('p','No responses match your search.'));
  const pager=document.querySelector('.pager');pager.hidden=pageCount<=1;$('#page-count').textContent=`${page+1}/${pageCount}`;$('#page-prev').disabled=page===0;$('#page-next').disabled=page>=pageCount-1;
  renderClouds(list,featuredRows[0]?.id||null);
+ requestAnimationFrame(fitVisibleTiles);
  const shared=decodeURIComponent((location.hash.match(/^#story=(.*)$/)||[])[1]||'');if(shared)queueMicrotask(()=>document.getElementById('tile-'+CSS.escape(shared))?.scrollIntoView({block:'center'}));
 }
 async function load(){if(!config.endpointUrl){backendConnected=false;render();return}try{const data=await api('wall');backendConnected=true;rows=data.rows;saveStore('physics-wall-cache',rows);render();$('#status').textContent=''}catch{backendConnected=false;render();$('#status').textContent=''}}
@@ -89,7 +97,7 @@ $('#submit-form').onsubmit=async e=>{
  }catch{$('#form-message').textContent='Could not send. Please try again.'}finally{button.disabled=false}
 };
 $('#flag-form').onsubmit=async e=>{e.preventDefault();if(!config.endpointUrl){$('#flag-status').textContent='Reporting is temporarily unavailable.';return}const b=e.target.querySelector('button');b.disabled=true;try{await api('flag',{id:flagId,reason:$('#flag-reason').value});$('#flag-status').textContent='Flag received. The moderator can review it.';$('#flag-form').hidden=true}catch(err){$('#flag-status').textContent=err.message}finally{b.disabled=false}};
-load();setInterval(()=>{if(config.endpointUrl&&!document.hidden&&!document.querySelector('dialog[open]'))load()},60000);
+load();document.fonts?.ready.then(fitVisibleTiles);let fitTimer;addEventListener('resize',()=>{clearTimeout(fitTimer);fitTimer=setTimeout(fitVisibleTiles,80)});setInterval(()=>{if(config.endpointUrl&&!document.hidden&&!document.querySelector('dialog[open]'))load()},60000);
 
 function renderClouds(list,featuredId){
  const root=$('#clouds'),pins=$('#map-pins'),lines=$('#map-lines');root.replaceChildren();pins.replaceChildren();lines.replaceChildren();

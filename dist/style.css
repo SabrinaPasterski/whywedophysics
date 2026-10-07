@@ -90,3 +90,7 @@ html,body{max-width:100%;overflow-x:hidden}
  .form-actions{align-items:flex-start;flex-direction:column;gap:12px}
  .form-actions .primary{width:100%}
 }
+@media (min-width:551px) and (max-width:850px){
+ .map-stage{overflow-x:hidden}
+ .map-canvas{min-width:100%;width:100%}
+}
