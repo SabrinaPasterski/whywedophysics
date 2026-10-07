@@ -4,6 +4,8 @@
 
 - [x] Bottom-up community portrait; open submission rather than editorial selection.
 - [x] Native on-site form with a private Google Sheets moderation queue.
+- [x] The moderation Sheet keeps real responses at the top and puts the `Approved` checkbox in column A.
+- [x] New moderation entries and the public wall both default to newest first.
 - [x] Moderation limited to consent, privacy, spam, abuse, and basic validity.
 - [x] Declarations limited to 140 characters, with a 20-character minimum.
 - [x] Optional city appears on the map only with explicit permission.
@@ -18,23 +20,31 @@
 ## Interface
 
 - [x] Compact header: blue `WHY WE DO PHYSICS` over lowercase `a community portrait`.
+- [x] Keep the blue φ favicon as the small `why-phy` mark; do not replace it with WiPhy branding.
 - [x] Both brand lines have the same rendered width using interletter spacing.
+- [x] Brand spacing is CSS-only and stable on first paint; `a community portrait` does not wobble after load.
 - [x] Header and footer rules have the same inset width.
 - [x] Hero question is vertically centered beside one fixed-height rotating card.
+- [x] Illustrative rows are excluded from the rotating top carousel.
 - [x] Previous and next arrows sit outside the featured card.
+- [x] Featured-card arrows are grey and disabled when there is no previous or next real response.
 - [x] No print control, repeated title, map title, separator, or explanatory map copy.
 - [x] Answer colors are split roughly evenly between black and PaperView blue `#0056b3`.
 - [x] Cards are fixed height.
 - [x] Declaration text is top-aligned; contributor, institution, and location occupy separate lines above the bottom action row.
+- [x] Declaration text sits slightly lower beneath the date and tag row without changing card height.
+- [x] Optional PhD year appears beside the contributor name as `Name, PhD YYYY`; it is smaller and regular weight, and only the name is bold.
 - [x] arXiv fields and career stages are lowercase, compact tags.
 - [x] Card tags use a white fill rather than a grey fill.
 - [x] Filter chips use separate arXiv-field and career-stage rows beside the response and country tally.
 - [x] Search offers `RECENT | POPULAR`; popular sorts by hearts.
-- [x] Six cards per page; compact `PREVIOUS  n/N  NEXT` controls sit lower right and reserve no space when hidden.
-- [x] Preview data includes a seventh card so `NEXT` is visible after the first six.
+- [x] Each page shows exactly two rows: 6 cards on desktop, 8 on wide screens, 4 on tablet, and 2 on mobile; compact `PREVIOUS  n/N  NEXT` controls sit lower right and reserve no space when hidden.
+- [x] There is no local preview response mode or embedded preview content.
 - [x] Mobile layout keeps the compact header, fixed cards, tags, filters, map, and pager usable without extra whitespace.
 - [x] Example map cards occupy non-overlapping positions.
 - [x] Map cards always use PaperView blue text and are assigned to longitude-ordered lanes with non-crossing connectors.
+- [x] Map pins are always visible; one declaration card appears on hover/focus or tap, and clicking the map background clears it.
+- [x] Every mapped submission has its own dot; the declaration in the upper-right featured card has the larger dot.
 - [x] One row shows common arXiv categories; `+` expands a second arXiv row containing the remaining categories, including `math-ph`.
 - [x] The undergrad/master’s/PhD/postdoc/faculty/alumni row sits below the arXiv rows.
 - [x] A compact `CLEAR` control appears only while a map filter is selected.
@@ -60,7 +70,8 @@
 - [x] Desktop Submit dialog fits without an unnecessary internal scrollbar; mobile retains scrolling only when the viewport requires it.
 - [x] About mission: “Physics is changing. The reasons why we do it will shape what it becomes. This project records those reasons, one short declaration at a time. Add yours.”
 - [x] The About call to action stays on its own line and uses the same font and grey color as the body; the heading remains unchanged.
-- [x] A new or temporarily unreachable wall falls back silently to the illustrative responses; it never displays connection errors or “Waiting for the first response.”
+- [x] A temporarily unreachable wall silently uses the last successful approved response data; sample content is not hardcoded in the browser.
+- [ ] Store illustrative responses as normal moderated Sheet rows so they can be approved, unapproved, or removed like any other entry.
 
 ## Repository and operations
 

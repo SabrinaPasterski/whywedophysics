@@ -7,7 +7,7 @@ const MAP_PERMISSION = 'yes';
 const FLAG_REASONS = ['Inappropriate or harmful content','Spam or unrelated content','Attribution or privacy concern'];
 const STAGES = ['Undergrad','Master\u2019s','PhD','Postdoc','Faculty','Alumni'];
 const CATEGORIES = ['astro-ph','cond-mat','gr-qc','hep-ex','hep-lat','hep-ph','hep-th','math-ph','nucl-ex','nucl-th','physics','quant-ph'];
-const RESPONSE_HEADERS = ['Timestamp','Name','Affiliation','Career stage','PhD year','arXiv category','Why do you do physics?','City','Country','Map permission','Display permission','Response ID','Approved','Latitude','Longitude','Map place'];
+const RESPONSE_HEADERS = ['Approved','Illustrative','Timestamp','Name','Affiliation','Career stage','PhD year','arXiv category','Why do you do physics?','City','Country','Map permission','Display permission','Response ID','Latitude','Longitude','Map place'];
 const BACKUP_FOLDER_NAME = 'Why We Do Physics \u2014 backups';
 const DAILY_BACKUP_DAYS = 90;
 const MONTHLY_BACKUP_DAYS = 730;
@@ -20,12 +20,44 @@ function setupSite() {
   responses.setName('Responses');
   responses.getRange(1, 1, 1, RESPONSE_HEADERS.length).setValues([RESPONSE_HEADERS]);
   responses.setFrozenRows(1);
-  responses.getRange(2, RESPONSE_HEADERS.indexOf('Approved') + 1, Math.max(responses.getMaxRows() - 1, 1), 1).insertCheckboxes();
   ss.insertSheet('Hearts').appendRow(['Response ID','Visitor','Created']);
   ss.insertSheet('Flags').appendRow(['Response ID','Visitor','Reason','Created','Resolved']);
   props.setProperties({SHEET_ID: ss.getId(), RESPONSE_SHEET: responses.getName()});
   setupBackups();
   console.log('Private moderation sheet: ' + ss.getUrl());
+}
+
+/**
+ * One-time repair for Sheets created by the first setup version. It moves
+ * Approved to column A, removes placeholder checkbox rows, and preserves every
+ * real response. Safe to run again.
+ */
+function migrateModerationSheet() {
+  const props = PropertiesService.getScriptProperties();
+  const sheet = SpreadsheetApp.openById(props.getProperty('SHEET_ID')).getSheetByName(props.getProperty('RESPONSE_SHEET'));
+  const values = sheet.getDataRange().getValues();
+  const headers = values.shift().map(String);
+  const approvedIndex = headers.indexOf('Approved');
+  const timestampIndex = headers.indexOf('Timestamp');
+  if (approvedIndex < 0) throw new Error('Approved column not found.');
+  const rows = values.filter(row => row.some((value, index) => index !== approvedIndex && value !== '' && value !== null));
+  rows.sort((a, b) => new Date(b[timestampIndex]).getTime() - new Date(a[timestampIndex]).getTime());
+  const nextHeaders = RESPONSE_HEADERS;
+  const nextRows = rows.map(row => nextHeaders.map(header => {
+    const index = headers.indexOf(header);
+    if (header === 'Approved' || header === 'Illustrative') return index >= 0 && row[index] === true;
+    return index >= 0 ? row[index] : '';
+  }));
+  sheet.getDataRange().clearDataValidations();
+  sheet.clearContents();
+  sheet.getRange(1, 1, 1, nextHeaders.length).setValues([nextHeaders]);
+  if (nextRows.length) {
+    sheet.getRange(2, 1, nextRows.length, nextHeaders.length).setValues(nextRows);
+    sheet.getRange(2, 1, nextRows.length, 1).insertCheckboxes();
+    sheet.getRange(2, 1, nextRows.length, 1).setValues(nextRows.map(row => [row[0]]));
+  }
+  sheet.setFrozenRows(1);
+  console.log('Compacted ' + nextRows.length + ' responses; Approved is column A.');
 }
 
 /**
@@ -99,19 +131,21 @@ function doPost(e) {
     const props = PropertiesService.getScriptProperties();
     const sheet = SpreadsheetApp.openById(props.getProperty('SHEET_ID')).getSheetByName(props.getProperty('RESPONSE_SHEET'));
     const id = submissionId || Utilities.getUuid();
-    const row = [new Date(), name, affiliation, stage, year, category, reason, city, country, mapOptIn ? MAP_PERMISSION : '', consent ? CONSENT : '', id, false, '', '', ''];
+    const row = [false, false, new Date(), name, affiliation, stage, year, category, reason, city, country, mapOptIn ? MAP_PERMISSION : '', consent ? CONSENT : '', id, '', '', ''];
     if (mapOptIn) {
       try {
         const result = Maps.newGeocoder().geocode(city + ', ' + country);
         if (result.status === 'OK' && result.results.length) {
           const place = result.results[0];
-          row[13] = place.geometry.location.lat;
-          row[14] = place.geometry.location.lng;
-          row[15] = place.formatted_address;
+          row[14] = place.geometry.location.lat;
+          row[15] = place.geometry.location.lng;
+          row[16] = place.formatted_address;
         }
       } catch (err) { console.log('City geocoding unavailable; coordinates can be added during moderation.'); }
     }
-    sheet.appendRow(row);
+    sheet.insertRowAfter(1);
+    sheet.getRange(2, 1, 1, row.length).setValues([row]);
+    sheet.getRange(2, 1).insertCheckboxes().setValue(false);
     return json({ok: true, id: id});
   } catch (err) {
     const safe = ['Invalid request.','Complete the required fields.','Check the PhD year.','Add both city and country for map placement.','The site is busy. Please try again.'];
@@ -137,7 +171,7 @@ function doGet(e) {
       let id = String(get(row, 'Response ID'));
       if (!id) { id = Utilities.getUuid(); sheet.getRange(i + 2, column('Response ID') + 1).setValue(id); }
       const mapOptIn = get(row, 'Map permission') === MAP_PERMISSION;
-      eligible.push({id, date: publicDate(get(row, 'Timestamp')), name: clean(get(row, 'Name'), 100), affiliation: clean(get(row, 'Affiliation'), 160), stage: clean(get(row, 'Career stage'), 40), category: clean(get(row, 'arXiv category'), 30), year: clean(get(row, 'PhD year'), 4), reason: clean(get(row, 'Why do you do physics?'), 140), city: mapOptIn ? clean(get(row, 'City'), 120) : '', country: mapOptIn ? clean(get(row, 'Country'), 120) : '', lat: !mapOptIn || get(row, 'Latitude') === '' ? null : Number(get(row, 'Latitude')), lng: !mapOptIn || get(row, 'Longitude') === '' ? null : Number(get(row, 'Longitude'))});
+      eligible.push({id, illustrative: get(row, 'Illustrative') === true, date: publicDate(get(row, 'Timestamp')), name: clean(get(row, 'Name'), 100), affiliation: clean(get(row, 'Affiliation'), 160), stage: clean(get(row, 'Career stage'), 40), category: clean(get(row, 'arXiv category'), 30), year: clean(get(row, 'PhD year'), 4), reason: clean(get(row, 'Why do you do physics?'), 140), city: mapOptIn ? clean(get(row, 'City'), 120) : '', country: mapOptIn ? clean(get(row, 'Country'), 120) : '', lat: !mapOptIn || get(row, 'Latitude') === '' ? null : Number(get(row, 'Latitude')), lng: !mapOptIn || get(row, 'Longitude') === '' ? null : Number(get(row, 'Longitude'))});
     });
     const heartSheet = ss.getSheetByName('Hearts'), hearts = heartSheet.getDataRange().getValues().slice(1);
     if (p.action === 'wall') {

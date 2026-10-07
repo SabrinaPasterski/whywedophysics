@@ -29,6 +29,7 @@ The private spreadsheet contains three tabs:
 - display consent and map permission;
 - the permanent `WWDP-…` post ID;
 - moderation status;
+- an illustrative marker for seeded examples, which keeps them out of the real-response carousel;
 - map coordinates generated from an opted-in city.
 
 ### Hearts
@@ -46,11 +47,13 @@ The private spreadsheet contains three tabs:
 
 The form does **not** collect email addresses. The site does not store raw IP addresses. The private spreadsheet must never be published or shared publicly. Apps Script returns only approved responses with display consent. City and coordinates are returned only when the contributor filled the optional City field.
 
+Declaration content is not embedded in the public JavaScript. Illustrative entries are ordinary moderated Sheet rows, and a temporary backend outage uses only the last successful approved response data cached in the visitor's browser.
+
 ## Moderation
 
 1. Open the private response Sheet while signed in as `ai4theory@gmail.com`.
 2. Review a pending row.
-3. Check **Approved** to publish it.
+3. Check **Approved** in the first column to publish it.
 4. Uncheck **Approved** to remove it from the public wall.
 5. Review community reports in **Flags** and mark resolved reports there.
 
@@ -62,6 +65,7 @@ Moderation is operational, not editorial: basic validity, spam, abuse, attributi
 2. Create a project named **Why We Do Physics** and paste `google/Code.gs` into `Code.gs`.
 3. Run `setupSite()` once and authorize access. Its execution log gives the private Sheet URL.
    For an existing Sheet created before backups were added, run `setupBackups()` once as well.
+   Run `migrateModerationSheet()` after upgrading an existing response Sheet to the current headers.
 4. Deploy as a web app: execute as the owner and allow **Anyone** to call it.
 5. Put the `/exec` deployment URL in `dist/config.js` as `endpointUrl`.
 6. Submit a test entry. It must stay off the wall until **Approved** is checked.

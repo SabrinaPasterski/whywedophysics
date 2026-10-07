@@ -6,6 +6,9 @@
 <title>Why We Do Physics</title>
 <meta name="description" content="A collective wall of the reasons we do physics.">
 <link rel="icon" href="favicon.svg">
+<link rel="preload" href="fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/playfair-display-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/playfair-display-italic-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="style.css">
 <script src="config.js" defer>
 </script>
@@ -35,14 +38,14 @@
 </div>
 </div>
 <div class="legend">
-<span class="count" id="count">6</span>
-<span id="count-label">example responses</span>
-<span id="mode">Preview · illustrative responses</span>
+<span class="count" id="count">0</span>
+<span id="count-label">responses</span>
+<span id="mode">Community responses</span>
 </div>
 </section>
 <section class="map-section" aria-label="A map of responses">
 <div class="map-toolbar">
-<span id="response-tally">6 responses</span>
+<span id="response-tally">0 responses · 0 countries</span>
 <div id="filter-chips" aria-label="Filter responses"></div>
 </div>
 <p id="map-status" class="sr-only" aria-live="polite">
@@ -96,7 +99,7 @@
 <button class="close" aria-label="Close">×</button>
 <h2>Why do you do physics?</h2>
 <p id="form-message" role="status"></p>
-<form id="preview-form">
+<form id="submit-form">
 <label class="reason-field">Your answer<textarea name="reason" required minlength="20" maxlength="140" rows="3" placeholder="One or two short sentences" aria-describedby="reason-count">
 </textarea>
 <span class="character-count" id="reason-count">0 / 140</span>

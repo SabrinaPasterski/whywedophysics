@@ -4,7 +4,7 @@ Physics is changing. The reasons why we do it will shape what it becomes. This p
 
 Live site: [whywedophysics.com](https://whywedophysics.com)
 
-## Preview
+## Local development
 
 ```sh
 python3 -m http.server 8768 --directory dist
@@ -12,7 +12,7 @@ python3 -m http.server 8768 --directory dist
 
 Open `http://localhost:8768`.
 
-Without a configured endpoint, the site shows illustrative responses. Preview submissions remain in the current browser tab.
+Without a configured endpoint, the site contains no embedded declarations and does not simulate submissions. In production, a temporary backend outage can display the last successful approved response data cached by that browser.
 
 ## Submissions and moderation
 
@@ -22,6 +22,7 @@ The public form is part of the site. A private Google Sheet owned by `ai4theory@
 2. Paste `google/Code.gs` into the project.
 3. Run `setupSite()` once and authorize it. The execution log contains the URL of the private moderation spreadsheet.
    If the Sheet already exists, run `setupBackups()` once to install the private daily Google Drive backup.
+   Run `migrateModerationSheet()` after upgrading an existing response Sheet to the current headers.
 4. Deploy as a Web app, executing as the owner, with access set to **Anyone**.
 5. Put the deployment URL ending in `/exec` in `dist/config.js` as `endpointUrl`.
 6. Submit a test response. It must remain absent from the public wall until **Approved** is checked in the private Responses sheet.
@@ -47,8 +48,9 @@ Google Sheets version history is supplemented by a private daily Drive copy: 90 
 ## Public behavior
 
 - One featured declaration appears beside the question, with previous and next controls.
+- Illustrative Sheet rows stay out of the featured carousel.
 - All declaration cards have a fixed height.
-- The map includes only opted-in city locations.
+- The map includes only opted-in city locations; pins are always visible and one card appears on hover, focus, or tap.
 - arXiv fields and career stages appear as tags and filter chips.
 - Search includes the declaration, contributor metadata, fields, stages, and locations.
 - Hearts use a browser-local anonymous identifier. Flags go to the private moderation sheet.
