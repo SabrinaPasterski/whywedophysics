@@ -49,6 +49,7 @@
 - [x] Map cards always use PaperView blue text and are assigned to longitude-ordered lanes with non-crossing connectors.
 - [x] Map pins are always visible; one declaration card appears on hover/focus or tap, and clicking the map background clears it.
 - [x] Every mapped submission has its own dot; the declaration in the upper-right featured card has the larger dot.
+- [x] Only the declaration in the upper carousel has an outlined map dot; all other mapped submissions use plain blue dots.
 - [x] One row shows common arXiv categories; `+` expands a second arXiv row containing the remaining categories, including `math-ph`.
 - [x] The undergrad/master’s/PhD/postdoc/faculty/alumni row sits below the arXiv rows.
 - [x] A compact `CLEAR` control appears only while a map filter is selected, at the left of the career-stage row.
