@@ -56,7 +56,10 @@ footer{margin-top:18px}
 #submission-dialog{max-width:580px}
 .reference-row{display:flex;align-items:center;gap:12px;border:1px solid var(--line);padding:12px 14px}
 .reference-row strong{flex:1;color:var(--blue);font-size:18px;letter-spacing:.06em}
-.brand .brand-subtitle{display:block;width:100%;letter-spacing:0;text-align:justify;text-align-last:justify;text-justify:inter-character;white-space:nowrap}
+.brand .brand-subtitle{display:block;width:100%;letter-spacing:0;text-align:left;white-space:nowrap}
+.brand .brand-subtitle-track{display:flex;width:100%;margin:0;align-items:baseline;justify-content:space-between;color:inherit;font-size:inherit;font-weight:inherit}
+.brand .brand-subtitle-track>span{display:block;width:auto;margin:0;flex:0 0 auto;color:inherit;font-size:inherit;font-weight:inherit}
+.brand .brand-subtitle-track>.brand-word-gap{width:.5em}
 .credit-name{font-size:14px;font-weight:600;line-height:1.35}
 .credit-name .credit-year{display:inline;margin:0;font-size:12px;font-weight:400;opacity:1}
 .tile blockquote{padding-top:17px}
@@ -79,6 +82,8 @@ html,body{max-width:100%;overflow-x:hidden}
  .intro .featured .tile{width:100%;min-width:0;max-width:100%}
  .featured-nav{left:0;right:0}
  .map-toolbar,#filter-chips,.filter-chip-row{min-width:0;max-width:100%}
+ .map-stage{overflow-x:hidden}
+ .map-canvas{min-width:100%;width:100%;aspect-ratio:2/1}
  footer{margin-top:14px}
  #submit-dialog{padding:24px 20px}
  .form-grid{grid-template-columns:1fr}
