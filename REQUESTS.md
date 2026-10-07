@@ -81,7 +81,9 @@
 - [x] Invalid legacy browser visitor IDs are regenerated so the backend cannot reject a returning visitor while the page silently keeps stale cached responses.
 - [x] Relay wall and submission requests through a same-origin Cloudflare Pages Function so Chrome cannot reject the Apps Script response as a third-party script.
 - [x] Keep declaration cards fixed-height and reduce only the declaration font as needed so every card's text and metadata stay inside it.
+- [x] Apply fixed-card text fitting to the upper carousel as well as every response card; carousel content never overflows upward.
 - [x] Remove the intermediate-width map canvas minimum that caused an internal horizontal scrollbar in the native browser.
+- [x] Localhost uses a local `/api` relay so it displays the same approved declarations as the live site.
 - [x] Store illustrative responses as normal moderated Sheet rows so they can be approved, unapproved, or removed like any other entry.
 
 ## Repository and operations

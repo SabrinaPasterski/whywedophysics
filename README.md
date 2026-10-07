@@ -7,12 +7,12 @@ Live site: [whywedophysics.com](https://whywedophysics.com)
 ## Local development
 
 ```sh
-python3 -m http.server 8768 --directory dist
+python3 serve.py --port 8768
 ```
 
 Open `http://localhost:8768`.
 
-Without a configured endpoint, the site contains no embedded declarations and does not simulate submissions. In production, a temporary backend outage can display the last successful approved response data cached by that browser.
+The preview server serves `dist/` and relays `/api` to the same Apps Script backend as Cloudflare, so approved declarations and backend interactions match production. Local submissions reach the real moderation queue. In production, a temporary backend outage can display the last successful approved response data cached by that browser.
 
 ## Submissions and moderation
 
@@ -71,6 +71,7 @@ Do not place credentials in this repository. `functions/api.js` contains only th
 ## Files
 
 - `dist/` — static public site
+- `serve.py` — local static preview plus `/api` relay
 - `google/Code.gs` — private Sheets moderation backend
 - `REQUESTS.md` — current product and design requirements
 
