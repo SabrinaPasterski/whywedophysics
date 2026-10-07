@@ -144,7 +144,8 @@ function doPost(e) {
   try {
     if (p.action !== 'submit' || p.website) throw new Error('Invalid request.');
     const name = clean(p.name, 100), affiliation = clean(p.affiliation, 160);
-    const stage = STAGES.includes(p.stage) ? p.stage : '';
+    const submittedStage = p.stage === 'Research staff' ? 'Research Staff' : p.stage;
+    const stage = STAGES.includes(submittedStage) ? submittedStage : '';
     const category = CATEGORIES.includes(p.category) ? p.category : '';
     const year = clean(p.year, 4), reason = clean(p.reason, 140);
     const city = clean(p.city, 120), country = clean(p.country, 120);
@@ -160,6 +161,11 @@ function doPost(e) {
     const ss = SpreadsheetApp.openById(props.getProperty('SHEET_ID'));
     const sheet = ss.getSheetByName(props.getProperty('RESPONSE_SHEET'));
     const id = submissionId || Utilities.getUuid();
+    if (submissionId && sheet.getLastRow() > 1) {
+      const idColumn = RESPONSE_HEADERS.indexOf('Response ID') + 1;
+      const existing = sheet.getRange(2, idColumn, sheet.getLastRow() - 1, 1).getDisplayValues().some(values => values[0] === id);
+      if (existing) return json({ok: true, id: id, replayed: true});
+    }
     const row = [false, false, new Date(), name, affiliation, stage, year, category, reason, city, country, mapOptIn ? MAP_PERMISSION : '', consent ? CONSENT : '', id, '', '', ''];
     if (mapOptIn) {
       try {

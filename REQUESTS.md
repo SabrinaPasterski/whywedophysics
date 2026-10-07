@@ -75,6 +75,8 @@
 - [x] Submission confirmation keeps the copyable ID but omits the `Reference ID` label.
 - [x] The confirmation shows the optional ID and COPY control without instructing people to save it.
 - [x] Confirmation explains the identifier minimally: “This ID identifies your post.”
+- [x] Show a post ID only after the backend confirms that the response was saved; keep the form data visible and show the backend error when saving fails.
+- [x] Retry a transient submission failure once with the same post ID, and make backend writes idempotent so retrying cannot create duplicate responses.
 - [x] Identifier explanation and contact sentence share one paragraph and one font in the narrower confirmation dialog.
 - [x] Post identifiers use the `WWDP-` prefix.
 - [x] Submit form states: “Submissions subject to moderation and community flagging.”
