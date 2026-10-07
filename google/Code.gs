@@ -38,9 +38,9 @@ function doPost(e) {
     const category = CATEGORIES.includes(p.category) ? p.category : '';
     const year = clean(p.year, 4), reason = clean(p.reason, 140);
     const city = clean(p.city, 120), country = clean(p.country, 120), arxiv = clean(p.arxiv, 200);
-    const submissionId = clean(p.submissionId, 14);
+    const submissionId = clean(p.submissionId, 15);
     const mapOptIn = p.mapOptIn === MAP_PERMISSION, consent = p.consent === CONSENT;
-    if (submissionId && !/^WWP-[A-F0-9]{10}$/.test(submissionId)) throw new Error('Invalid request.');
+    if (submissionId && !/^WWDP-[A-F0-9]{10}$/.test(submissionId)) throw new Error('Invalid request.');
     if (!name || !affiliation || !stage || !category || reason.length < 20 || !consent) throw new Error('Complete the required fields.');
     if (year && !/^(19|20|21)[0-9]{2}$/.test(year)) throw new Error('Check the PhD year.');
     if (mapOptIn && (!city || !country)) throw new Error('Add both city and country for map placement.');

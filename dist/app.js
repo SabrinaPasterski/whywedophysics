@@ -35,7 +35,7 @@ async function loadInstitutions(){if(institutionIndex.size)return;if(institution
 function arxivLink(value){const raw=(value||'').trim().replace(/^arxiv:\s*/i,'');if(/^(\d{4}\.\d{4,5}|[a-z-]+(\.[A-Z]{2})?\/\d{7})(v\d+)?$/.test(raw))return 'https://arxiv.org/abs/'+raw;try{const u=new URL(raw);if(u.protocol==='https:'&&u.hostname==='arxiv.org'&&/^\/(a|abs)\/[A-Za-z0-9._/-]+$/.test(u.pathname)&&!u.search&&!u.hash)return u.href}catch{}return null}
 function storyUrl(id){const url=new URL(location.href);url.hash='story='+encodeURIComponent(id);return url.href}
 async function shareStory(r){const url=storyUrl(r.id),data={title:'Why We Do Physics',text:`“${r.reason}” — ${r.name||'Anonymous'}`,url};try{if(navigator.share)await navigator.share(data);else{await navigator.clipboard.writeText(url);$('#status').textContent='Story link copied.'}}catch(err){if(err.name!=='AbortError')$('#status').textContent='Could not share this story.'}}
-function newSubmissionId(){return 'WWP-'+crypto.randomUUID().replaceAll('-','').slice(0,10).toUpperCase()}
+function newSubmissionId(){return 'WWDP-'+crypto.randomUUID().replaceAll('-','').slice(0,10).toUpperCase()}
 function showSubmissionConfirmation(id){$('#submission-id').textContent=id;$('#copy-submission-id').textContent='COPY';$('#submission-dialog').showModal()}
 function makeTile(r,i,demo,prefix){
  const tile=document.createElement('article');

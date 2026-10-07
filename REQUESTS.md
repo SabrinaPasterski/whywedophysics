@@ -53,6 +53,8 @@
 - [x] Submission confirmation directs questions and comments to `contact@whywedophysics.com`.
 - [x] Submission confirmation keeps the copyable ID but omits the `Reference ID` label.
 - [x] The confirmation shows the optional ID and COPY control without instructing people to save it.
+- [x] Confirmation explains the identifier minimally: “This ID identifies your post.”
+- [x] Post identifiers use the `WWDP-` prefix.
 - [x] Submit form states: “Submissions subject to moderation and community flagging.”
 - [x] Desktop Submit dialog fits without an unnecessary internal scrollbar; mobile retains scrolling only when the viewport requires it.
 - [x] About mission: “Physics is changing. The reasons why we do it will shape what it becomes. This project records those reasons, one short declaration at a time. Add yours.”
