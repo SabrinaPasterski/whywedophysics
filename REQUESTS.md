@@ -6,7 +6,7 @@
 - [x] Native on-site form with a private Google Sheets moderation queue.
 - [x] The moderation Sheet keeps real responses at the top and puts the `Approved` checkbox in column A.
 - [x] New moderation entries and the public wall both default to newest first.
-- [x] Email `ai4theory@gmail.com` when a new submission is saved; a mail failure must not lose or reject the submission.
+- [ ] Deploy the prepared Apps Script update that emails `ai4theory@gmail.com` when a new submission is saved; a mail failure must not lose or reject the submission.
 - [x] Moderation limited to consent, privacy, spam, abuse, and basic validity.
 - [x] Declarations limited to 140 characters, with a 20-character minimum.
 - [x] Optional city appears on the map only with explicit permission.
@@ -74,11 +74,12 @@
 - [x] The About call to action stays on its own line and uses the same font and grey color as the body; the heading remains unchanged.
 - [x] A temporarily unreachable wall silently uses the last successful approved response data; sample content is not hardcoded in the browser.
 - [x] Production HTML, CSS, and JavaScript do not mix stale cached versions after a deployment.
-- [ ] Store illustrative responses as normal moderated Sheet rows so they can be approved, unapproved, or removed like any other entry.
+- [x] Store illustrative responses as normal moderated Sheet rows so they can be approved, unapproved, or removed like any other entry.
 
 ## Repository and operations
 
 - [x] Create a standalone GitHub repository and place its checkout at `Research/WhyWeDoPhysics`.
 - [x] Configure the Apps Script endpoint and verify a moderated live submission.
-- [ ] Verify the production domain, HTTPS, sharing, map permission, and contact forwarding.
+- [x] Verify the production apex and `www` domains, HTTPS, live wall endpoint, declaration sharing, and map opt-in behavior.
+- [ ] Verify end-to-end delivery from `contact@whywedophysics.com` to the AI4Theory mailbox.
 - [x] Document the private data model, moderation, backups, free-tier constraint, and Cloudflare deployment path.

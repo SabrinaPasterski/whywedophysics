@@ -34,9 +34,12 @@ The private spreadsheet contains three tabs:
 
 ### Hearts
 
-- post ID;
-- a random browser identifier;
-- creation time.
+- one private row per post ID and random browser identifier;
+- creation time;
+- removing a heart deletes that browser/post row;
+- the public API aggregates these rows into the response's total and returns only the total plus whether the requesting browser has liked it.
+
+The browser identifier is generated locally and is not an account or identity. Clearing site data or using another browser or device creates a new identifier, so hearts are a lightweight community signal rather than an identity-verified vote.
 
 ### Flags
 
@@ -59,7 +62,7 @@ Declaration content is not embedded in the public JavaScript. Illustrative entri
 
 Moderation is operational, not editorial: basic validity, spam, abuse, attribution, privacy, and consent.
 
-After the backend saves a new response, it sends `ai4theory@gmail.com` a moderation alert containing the submission ID and a direct link to this private Sheet. This uses the Apps Script owner's standard Mail service and requires no paid service. Notification failure is logged but never rolls back or rejects a saved submission.
+The versioned backend source sends `ai4theory@gmail.com` a moderation alert after saving a new response, containing the submission ID and a direct link to this private Sheet. This uses the Apps Script owner's standard Mail service and requires no paid service. Notification failure is logged but never rolls back or rejects a saved submission. The alert is inactive until this version of `google/Code.gs` is deployed to Apps Script and the owner approves its Mail permission.
 
 ## Google setup
 

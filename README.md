@@ -27,7 +27,7 @@ The public form is part of the site. A private Google Sheet owned by `ai4theory@
 5. Put the deployment URL ending in `/exec` in `dist/config.js` as `endpointUrl`.
 6. Submit a test response. It must remain absent from the public wall until **Approved** is checked in the private Responses sheet.
 
-Each successfully saved submission sends a best-effort moderation alert to `ai4theory@gmail.com` with its ID, contributor, declaration, and a link to the private Sheet. Google Apps Script sends the email without a paid service. If email delivery fails, the response remains safely stored in the moderation queue.
+The versioned backend source is configured to send `ai4theory@gmail.com` a best-effort moderation alert after each successfully saved submission, with its ID, contributor, declaration, and a link to the private Sheet. Google Apps Script sends the email without a paid service. If email delivery fails, the response remains safely stored in the moderation queue. This alert becomes active after `google/Code.gs` is deployed as a new Apps Script version and its Mail permission is approved.
 
 Moderation is for consent, privacy, spam, abuse, and basic form validity—not editorial selection. Unchecking **Approved** removes a response from the public wall.
 
@@ -55,7 +55,7 @@ Google Sheets version history is supplemented by a private daily Drive copy: 90 
 - The map includes only opted-in city locations; pins are always visible and one card appears on hover, focus, or tap.
 - arXiv fields and career stages appear as tags and filter chips.
 - Search includes the declaration, contributor metadata, fields, stages, and locations.
-- Hearts use a browser-local anonymous identifier. Flags go to the private moderation sheet.
+- Hearts use a browser-local random identifier. The private Sheet keeps at most one heart row per response and browser identifier; the backend aggregates those rows into the public count and returns only that count plus whether the current browser has liked the response. Clearing site data or using another browser or device creates a new identifier. Flags go to the private moderation sheet.
 - Each declaration has a stable `#story=` share link and uses the device share sheet when available.
 
 ## Hosting
