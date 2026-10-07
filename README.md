@@ -27,7 +27,7 @@ The public form is part of the site. A private Google Sheet owned by `ai4theory@
 5. Put the deployment URL ending in `/exec` in `dist/config.js` as `endpointUrl`.
 6. Submit a test response. It must remain absent from the public wall until **Approved** is checked in the private Responses sheet.
 
-The versioned backend source is configured to send `ai4theory@gmail.com` a best-effort moderation alert after each successfully saved submission, with its ID, contributor, declaration, and a link to the private Sheet. Google Apps Script sends the email without a paid service. If email delivery fails, the response remains safely stored in the moderation queue. This alert becomes active after `google/Code.gs` is deployed as a new Apps Script version and its Mail permission is approved.
+The live backend sends `ai4theory@gmail.com` a best-effort moderation alert after each successfully saved submission, with its ID, contributor, declaration, and a link to the private Sheet. Google Apps Script sends the email without a paid service. If email delivery fails, the response remains safely stored in the moderation queue. The Mail permission is approved for the production Apps Script deployment.
 
 Moderation is for consent, privacy, spam, abuse, and basic form validity—not editorial selection. Unchecking **Approved** removes a response from the public wall.
 

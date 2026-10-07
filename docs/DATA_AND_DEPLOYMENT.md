@@ -62,7 +62,7 @@ Declaration content is not embedded in the public JavaScript. Illustrative entri
 
 Moderation is operational, not editorial: basic validity, spam, abuse, attribution, privacy, and consent.
 
-The versioned backend source sends `ai4theory@gmail.com` a moderation alert after saving a new response, containing the submission ID and a direct link to this private Sheet. This uses the Apps Script owner's standard Mail service and requires no paid service. Notification failure is logged but never rolls back or rejects a saved submission. The alert is inactive until this version of `google/Code.gs` is deployed to Apps Script and the owner approves its Mail permission.
+The production backend sends `ai4theory@gmail.com` a moderation alert after saving a new response, containing the submission ID and a direct link to this private Sheet. This uses the Apps Script owner's standard Mail service and requires no paid service. Notification failure is logged but never rolls back or rejects a saved submission. The Mail permission is approved for the production Apps Script deployment.
 
 ## Google setup
 
@@ -76,6 +76,8 @@ The versioned backend source sends `ai4theory@gmail.com` a moderation alert afte
 6. Submit a test entry. It must stay off the wall until **Approved** is checked.
 
 When updating an existing deployment after adding moderation email alerts, create a new web-app version and approve the Mail permission requested by Google. Keep the existing `/exec` URL so the public site configuration does not change.
+
+Production was migrated to the 17-column moderation schema and Apps Script Version 3 on October 7, 2026. `Approved` and `Illustrative` are the first two columns, `Timestamp` is column C with a compact date-time display, and the public `/exec` URL is unchanged.
 
 The Apps Script deployment URL is public by design, but it is not a credential. Never commit Google credentials or make the Sheet public.
 

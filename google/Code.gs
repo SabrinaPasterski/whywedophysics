@@ -8,6 +8,7 @@ const FLAG_REASONS = ['Inappropriate or harmful content','Spam or unrelated cont
 const STAGES = ['Undergrad','Master\u2019s','PhD','Postdoc','Faculty','Alumni'];
 const CATEGORIES = ['astro-ph','cond-mat','gr-qc','hep-ex','hep-lat','hep-ph','hep-th','math-ph','nucl-ex','nucl-th','physics','quant-ph'];
 const RESPONSE_HEADERS = ['Approved','Illustrative','Timestamp','Name','Affiliation','Career stage','PhD year','arXiv category','Why do you do physics?','City','Country','Map permission','Display permission','Response ID','Latitude','Longitude','Map place'];
+const TIMESTAMP_FORMAT = 'M/d/yyyy H:mm:ss';
 const BACKUP_FOLDER_NAME = 'Why We Do Physics \u2014 backups';
 const DAILY_BACKUP_DAYS = 90;
 const MONTHLY_BACKUP_DAYS = 730;
@@ -20,6 +21,7 @@ function setupSite() {
   const responses = ss.getSheets()[0];
   responses.setName('Responses');
   responses.getRange(1, 1, 1, RESPONSE_HEADERS.length).setValues([RESPONSE_HEADERS]);
+  responses.getRange('C:C').setNumberFormat(TIMESTAMP_FORMAT);
   responses.setFrozenRows(1);
   ss.insertSheet('Hearts').appendRow(['Response ID','Visitor','Created']);
   ss.insertSheet('Flags').appendRow(['Response ID','Visitor','Reason','Created','Resolved']);
@@ -57,6 +59,7 @@ function migrateModerationSheet() {
     sheet.getRange(2, 1, nextRows.length, 2).insertCheckboxes();
     sheet.getRange(2, 1, nextRows.length, 2).setValues(nextRows.map(row => [row[0], row[1]]));
   }
+  sheet.getRange('C:C').setNumberFormat(TIMESTAMP_FORMAT);
   sheet.setFrozenRows(1);
   console.log('Compacted ' + nextRows.length + ' responses; Approved is column A.');
 }
@@ -169,6 +172,7 @@ function doPost(e) {
     }
     sheet.insertRowAfter(1);
     sheet.getRange(2, 1, 1, row.length).setValues([row]);
+    sheet.getRange(2, 3).setNumberFormat(TIMESTAMP_FORMAT);
     sheet.getRange(2, 1, 1, 2).insertCheckboxes().setValues([[false, false]]);
     notifyModerator_({id, name, affiliation, reason}, ss.getUrl());
     return json({ok: true, id: id});
