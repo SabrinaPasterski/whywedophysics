@@ -52,7 +52,7 @@
 - [x] Submit form has no draft-preview explanatory line.
 - [x] Submission confirmation directs questions and comments to `contact@whywedophysics.com`.
 - [x] Submission confirmation keeps the copyable ID but omits the `Reference ID` label.
-- [x] The line “Keep this ID for questions or removal requests.” remains below the ID.
+- [x] The lighter line “Save this ID for future reference.” appears below the ID.
 - [x] Submit form states: “Submissions subject to moderation and community flagging.”
 - [x] Desktop Submit dialog fits without an unnecessary internal scrollbar; mobile retains scrolling only when the viewport requires it.
 - [x] About mission: “Physics is changing. The reasons why we do it will shape what it becomes. This project records those reasons, one short declaration at a time. Add yours.”
