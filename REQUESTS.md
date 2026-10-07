@@ -52,6 +52,7 @@
 - [x] Submit form has no draft-preview explanatory line.
 - [x] Live submissions return a copyable reference ID and a concise, non-editorial moderation note for questions or removal requests.
 - [x] Submit form states: “Submissions subject to moderation and community flagging.”
+- [x] Desktop Submit dialog fits without an unnecessary internal scrollbar; mobile retains scrolling only when the viewport requires it.
 - [x] About mission: “Physics is changing. The reasons why we do it will shape what it becomes. This project records those reasons, one short declaration at a time. Add yours.”
 - [x] The About call to action stays on its own line and uses the same font and grey color as the body; the heading remains unchanged.
 

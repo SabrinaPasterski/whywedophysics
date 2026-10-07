@@ -39,13 +39,13 @@ footer{margin-top:18px}
 #about-dialog p{font-family:inherit;color:#50596a;font-size:14px;font-weight:400;letter-spacing:0;line-height:1.6}
 #about-dialog .about-cta{font-family:inherit;color:#50596a;font-size:14px;font-weight:400;letter-spacing:0;line-height:1.6}
 @media(max-width:550px){#about-dialog h2{font-size:32px}}
-#submit-dialog{max-width:760px}
-#submit-dialog h2{margin-bottom:24px}
+#submit-dialog{max-width:760px;padding:28px 40px}
+#submit-dialog h2{margin:4px 0 18px}
 #form-message:empty{display:none}
-#preview-form{display:grid;gap:18px}
+#preview-form{display:grid;gap:14px}
 #preview-form label{margin:0}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.reason-field textarea{min-height:96px}
+.reason-field textarea{min-height:82px}
 .map-opt-in{padding-top:2px}
 .form-actions{display:flex;align-items:center;justify-content:space-between;gap:18px}
 .form-actions .moderation-inline{max-width:430px;margin:0;color:#6b7280;font-size:11px;line-height:1.45}
@@ -71,6 +71,7 @@ html,body{max-width:100%;overflow-x:hidden}
  .featured-nav{left:0;right:0}
  .map-toolbar,#filter-chips,.filter-chip-row{min-width:0;max-width:100%}
  footer{margin-top:14px}
+ #submit-dialog{padding:24px 20px}
  .form-grid{grid-template-columns:1fr}
  .form-actions{align-items:flex-start;flex-direction:column;gap:12px}
  .form-actions .primary{width:100%}
