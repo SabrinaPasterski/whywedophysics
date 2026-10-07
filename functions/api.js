@@ -11,7 +11,7 @@ export async function onRequest({request}) {
   upstreamUrl.search = incoming.search;
   const incomingCallback = incoming.searchParams.get('callback');
   if (request.method === 'GET' && !incomingCallback) upstreamUrl.searchParams.set('callback', PROXY_CALLBACK);
-  const init = {method: request.method, redirect: 'follow'};
+  const init = {method: request.method, redirect: request.method === 'POST' ? 'manual' : 'follow'};
 
   if (request.method === 'POST') {
     init.body = await request.arrayBuffer();
@@ -20,7 +20,16 @@ export async function onRequest({request}) {
   }
 
   try {
-    const upstream = await fetch(upstreamUrl, init);
+    let upstream = await fetch(upstreamUrl, init);
+    if (request.method === 'POST' && upstream.status >= 300 && upstream.status < 400) {
+      const location = upstream.headers.get('location');
+      if (!location) throw new Error('Missing backend redirect');
+      const resultUrl = new URL(location);
+      if (resultUrl.protocol !== 'https:' || resultUrl.hostname !== 'script.googleusercontent.com') {
+        throw new Error('Invalid backend redirect');
+      }
+      upstream = await fetch(resultUrl, {method: 'GET', redirect: 'follow'});
+    }
     if (request.method === 'GET' && !incomingCallback) {
       const source = await upstream.text();
       const prefix = `${PROXY_CALLBACK}(`;
