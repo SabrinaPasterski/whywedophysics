@@ -156,9 +156,20 @@
 <label class="website-field" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off">
 </label>
 <div class="form-actions">
+<p class="moderation-inline">Reviewed only for consent, privacy, spam, abuse, and basic validity.</p>
 <button class="primary" type="submit">Submit</button>
 </div>
 </form>
+</dialog>
+<dialog id="submission-dialog">
+<button class="close" aria-label="Close">×</button>
+<h2 id="submission-title">Submitted</h2>
+<div id="submission-reference">
+<span>Reference ID</span>
+<div class="reference-row"><strong id="submission-id"></strong><button id="copy-submission-id" type="button">COPY</button></div>
+</div>
+<p id="submission-message">Keep this ID for questions or removal requests.</p>
+<p id="moderation-note">Reviewed only for consent, privacy, spam, abuse, and basic validity.</p>
 </dialog>
 <dialog id="flag-dialog">
 <button class="close" aria-label="Close">×</button>

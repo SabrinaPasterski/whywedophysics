@@ -35,6 +35,8 @@ async function loadInstitutions(){if(institutionIndex.size)return;if(institution
 function arxivLink(value){const raw=(value||'').trim().replace(/^arxiv:\s*/i,'');if(/^(\d{4}\.\d{4,5}|[a-z-]+(\.[A-Z]{2})?\/\d{7})(v\d+)?$/.test(raw))return 'https://arxiv.org/abs/'+raw;try{const u=new URL(raw);if(u.protocol==='https:'&&u.hostname==='arxiv.org'&&/^\/(a|abs)\/[A-Za-z0-9._/-]+$/.test(u.pathname)&&!u.search&&!u.hash)return u.href}catch{}return null}
 function storyUrl(id){const url=new URL(location.href);url.hash='story='+encodeURIComponent(id);return url.href}
 async function shareStory(r){const url=storyUrl(r.id),data={title:'Why We Do Physics',text:`“${r.reason}” — ${r.name||'Anonymous'}`,url};try{if(navigator.share)await navigator.share(data);else{await navigator.clipboard.writeText(url);$('#status').textContent='Story link copied.'}}catch(err){if(err.name!=='AbortError')$('#status').textContent='Could not share this story.'}}
+function newSubmissionId(){return 'WWP-'+crypto.randomUUID().replaceAll('-','').slice(0,10).toUpperCase()}
+function showSubmissionConfirmation(id){$('#submission-id').textContent=id;$('#copy-submission-id').textContent='COPY';$('#submission-dialog').showModal()}
 function makeTile(r,i,demo,prefix){
  const tile=document.createElement('article');
  tile.id=prefix+'-'+r.id;
@@ -66,7 +68,18 @@ function render(){const wall=$('#wall'),featured=$('#featured');wall.replaceChil
 async function load(){if(!config.endpointUrl){$('#status').textContent='';render();return}$('#status').textContent='Loading…';try{const data=await api('wall');rows=data.rows;render();$('#status').textContent=''}catch(e){rows=[];render();$('#mode').textContent='Connection unavailable';$('#status').textContent=e.message}}
 for(const button of document.querySelectorAll('.close'))button.onclick=()=>button.closest('dialog').close();for(const dialog of document.querySelectorAll('dialog'))dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close()}});
 $('#contribute').onclick=()=>$('#submit-dialog').showModal();
-$('#preview-form').onsubmit=async e=>{e.preventDefault();const form=e.target,f=new FormData(form),entry={id:'preview-'+crypto.randomUUID(),name:f.get('name'),affiliation:f.get('affiliation'),stage:f.get('stage'),category:f.get('category'),year:f.get('year'),reason:f.get('reason'),arxiv:f.get('arxiv')||'',city:f.get('mapOptIn')?f.get('city'):'',country:f.get('mapOptIn')?f.get('country'):'',preview:true};if(!endpointValid(config.endpointUrl)){previewTiles.push(entry);$('#submit-dialog').close();render();form.reset();reasonCount.textContent='0 / 140';syncMapFields();return}const button=form.querySelector('button[type="submit"]');button.disabled=true;try{const params=new URLSearchParams({action:'submit',name:entry.name,affiliation:entry.affiliation,stage:entry.stage,category:entry.category,year:entry.year,reason:entry.reason,arxiv:entry.arxiv,city:entry.city,country:entry.country,mapOptIn:f.get('mapOptIn')?'yes':'',consent:f.get('consent')?'yes':'',website:f.get('website')||''});await fetch(config.endpointUrl,{method:'POST',mode:'no-cors',body:params});$('#submit-dialog').close();form.reset();reasonCount.textContent='0 / 140';syncMapFields();$('#status').textContent='Received for review.'}catch{$('#form-message').textContent='Could not send. Please try again.'}finally{button.disabled=false}};
+$('#preview-form').onsubmit=async e=>{
+ e.preventDefault();
+ const form=e.target,f=new FormData(form),submissionId=newSubmissionId();
+ const entry={id:'preview-'+crypto.randomUUID(),name:f.get('name'),affiliation:f.get('affiliation'),stage:f.get('stage'),category:f.get('category'),year:f.get('year'),reason:f.get('reason'),arxiv:f.get('arxiv')||'',city:f.get('mapOptIn')?f.get('city'):'',country:f.get('mapOptIn')?f.get('country'):'',preview:true};
+ if(!endpointValid(config.endpointUrl)){previewTiles.push(entry);$('#submit-dialog').close();render();form.reset();reasonCount.textContent='0 / 140';syncMapFields();$('#status').textContent='Preview added locally.';return}
+ const button=form.querySelector('button[type="submit"]');button.disabled=true;
+ try{
+  const params=new URLSearchParams({action:'submit',submissionId,name:entry.name,affiliation:entry.affiliation,stage:entry.stage,category:entry.category,year:entry.year,reason:entry.reason,arxiv:entry.arxiv,city:entry.city,country:entry.country,mapOptIn:f.get('mapOptIn')?'yes':'',consent:f.get('consent')?'yes':'',website:f.get('website')||''});
+  await fetch(config.endpointUrl,{method:'POST',mode:'no-cors',body:params});
+  $('#submit-dialog').close();form.reset();reasonCount.textContent='0 / 140';syncMapFields();$('#status').textContent='Received for review.';showSubmissionConfirmation(submissionId)
+ }catch{$('#form-message').textContent='Could not send. Please try again.'}finally{button.disabled=false}
+};
 $('#flag-form').onsubmit=async e=>{e.preventDefault();if(!config.endpointUrl){$('#flag-status').textContent='Preview only. No report was sent. Connected responses send flags privately to the moderator.';return}const b=e.target.querySelector('button');b.disabled=true;try{await api('flag',{id:flagId,reason:$('#flag-reason').value});$('#flag-status').textContent='Flag received. The moderator can review it.';$('#flag-form').hidden=true}catch(err){$('#flag-status').textContent=err.message}finally{b.disabled=false}};
 load();setInterval(()=>{if(config.endpointUrl&&!document.hidden&&!document.querySelector('dialog[open]'))load()},60000);
 
@@ -81,6 +94,7 @@ function renderClouds(list){
  const candidates=[...cities.values()].map(group=>group[0]),chosen=[];if(candidates.length)chosen.push(candidates[0]);while(chosen.length<Math.min(3,candidates.length)){const remaining=candidates.filter(r=>!chosen.includes(r));remaining.sort((a,b)=>Math.min(...chosen.map(c=>(a.lat-c.lat)**2+((a.lng-c.lng)*Math.cos((a.lat+c.lat)*Math.PI/360))**2))-Math.min(...chosen.map(c=>(b.lat-c.lat)**2+((b.lng-c.lng)*Math.cos((b.lat+c.lat)*Math.PI/360))**2)));chosen.push(remaining.at(-1))}chosen.sort((a,b)=>a.lng-b.lng).forEach((r,i)=>showCloud(r,false,i));
 }
 $('#about').onclick=()=>$('#about-dialog').showModal();
+$('#copy-submission-id').onclick=async e=>{try{await navigator.clipboard.writeText($('#submission-id').textContent);e.currentTarget.textContent='COPIED'}catch{e.currentTarget.textContent='COPY FAILED'}};
 $('#search-input').oninput=()=>{page=0;render()};
 function stepFeatured(delta){const all=config.endpointUrl?rows:[...samples,...previewTiles];if(!all.length)return;featuredOffset=(featuredOffset+delta+all.length)%all.length;render()}
 $('#featured-prev').onclick=()=>stepFeatured(-1);$('#featured-next').onclick=()=>stepFeatured(1);

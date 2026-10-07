@@ -38,7 +38,9 @@ function doPost(e) {
     const category = CATEGORIES.includes(p.category) ? p.category : '';
     const year = clean(p.year, 4), reason = clean(p.reason, 140);
     const city = clean(p.city, 120), country = clean(p.country, 120), arxiv = clean(p.arxiv, 200);
+    const submissionId = clean(p.submissionId, 14);
     const mapOptIn = p.mapOptIn === MAP_PERMISSION, consent = p.consent === CONSENT;
+    if (submissionId && !/^WWP-[A-F0-9]{10}$/.test(submissionId)) throw new Error('Invalid request.');
     if (!name || !affiliation || !stage || !category || reason.length < 20 || !consent) throw new Error('Complete the required fields.');
     if (year && !/^(19|20|21)[0-9]{2}$/.test(year)) throw new Error('Check the PhD year.');
     if (mapOptIn && (!city || !country)) throw new Error('Add both city and country for map placement.');
@@ -46,7 +48,7 @@ function doPost(e) {
     if (!lock.tryLock(10000)) throw new Error('The site is busy. Please try again.');
     const props = PropertiesService.getScriptProperties();
     const sheet = SpreadsheetApp.openById(props.getProperty('SHEET_ID')).getSheetByName(props.getProperty('RESPONSE_SHEET'));
-    const id = Utilities.getUuid();
+    const id = submissionId || Utilities.getUuid();
     const row = [new Date(), name, affiliation, stage, year, category, reason, city, country, mapOptIn ? MAP_PERMISSION : '', arxiv, consent ? CONSENT : '', id, false, '', '', ''];
     if (mapOptIn) {
       try {
