@@ -47,7 +47,7 @@
 - [x] Every mapped submission has its own dot; the declaration in the upper-right featured card has the larger dot.
 - [x] One row shows common arXiv categories; `+` expands a second arXiv row containing the remaining categories, including `math-ph`.
 - [x] The undergrad/master’s/PhD/postdoc/faculty/alumni row sits below the arXiv rows.
-- [x] A compact `CLEAR` control appears only while a map filter is selected.
+- [x] A compact `CLEAR` control appears only while a map filter is selected, at the left of the career-stage row.
 - [x] arXiv and career-stage chips support multiple simultaneous selections.
 - [x] Links have no underlines; sharing uses an icon.
 - [x] Header omits redundant site sharing; card icons share individual declarations.
