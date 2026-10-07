@@ -5,7 +5,7 @@
 const CONSENT = 'yes';
 const MAP_PERMISSION = 'yes';
 const FLAG_REASONS = ['Inappropriate or harmful content','Spam or unrelated content','Attribution or privacy concern'];
-const STAGES = ['Undergrad','Master\u2019s','PhD','Postdoc','Faculty','Research staff','Industry','Alumni'];
+const STAGES = ['Undergrad','Master\u2019s','PhD','Postdoc','Faculty','Research Staff','Industry','Alumni'];
 const CATEGORIES = ['astro-ph','cond-mat','gr-qc','hep-ex','hep-lat','hep-ph','hep-th','math-ph','nucl-ex','nucl-th','physics','quant-ph'];
 const RESPONSE_HEADERS = ['Approved','Illustrative','Timestamp','Name','Affiliation','Career stage','PhD year','arXiv category','Why do you do physics?','City','Country','Map permission','Display permission','Response ID','Latitude','Longitude','Map place'];
 const TIMESTAMP_FORMAT = 'M/d/yyyy H:mm:ss';

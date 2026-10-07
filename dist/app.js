@@ -2,7 +2,7 @@ const $ = s => document.querySelector(s);
 const COMMON_CATEGORY_OPTIONS=['astro-ph','cond-mat','gr-qc','hep-ex','hep-ph','hep-th','quant-ph'];
 const MORE_CATEGORY_OPTIONS=['hep-lat','math-ph','nucl-ex','nucl-th','physics'];
 const CATEGORY_OPTIONS=[...COMMON_CATEGORY_OPTIONS,...MORE_CATEGORY_OPTIONS];
-const STAGE_OPTIONS=['Undergrad','Master’s','PhD','Postdoc','Faculty','Research staff','Industry','Alumni'];
+const STAGE_OPTIONS=['Undergrad','Master’s','PhD','Postdoc','Faculty','Research Staff','Industry','Alumni'];
 function readStore(key,fallback){try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}}
 function saveStore(key,value){try{localStorage.setItem(key,JSON.stringify(value))}catch{}}
 let config={...readStore('physics-wall-config',{}),...window.WALL_CONFIG}, rows=readStore('physics-wall-cache',[]), backendConnected=false, flagId=null;

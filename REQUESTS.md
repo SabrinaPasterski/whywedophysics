@@ -13,7 +13,7 @@
 - [x] Optional city appears on the map only with explicit permission.
 - [x] University / institution is required and displayed on each submitted response.
 - [x] Career stage and primary arXiv field are required so every response can be filtered; PhD year remains optional.
-- [x] Career stage row is undergrad, master’s, PhD, postdoc, faculty, research staff, industry, alumni; research staff covers non-faculty academic research roles, while industry represents people currently active outside academia.
+- [x] Career stage row is undergrad, master’s, PhD, postdoc, faculty, Research Staff, industry, alumni; Research Staff covers non-faculty academic research roles, while industry represents people currently active outside academia.
 - [x] Per-declaration sharing, hearts, and private flags.
 - [x] Contact address shown as `contact@whywedophysics.com`.
 - [x] Configure that address through Cloudflare Email Routing to the AI4Theory mailbox destination.
