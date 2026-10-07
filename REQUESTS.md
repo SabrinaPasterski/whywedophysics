@@ -13,7 +13,7 @@
 - [x] Optional city appears on the map only with explicit permission.
 - [x] University / institution is required and displayed on each submitted response.
 - [x] Career stage and primary arXiv field are required so every response can be filtered; PhD year remains optional.
-- [x] Career stage row is undergrad, master’s, PhD, postdoc, faculty, alumni.
+- [x] Career stage row is undergrad, master’s, PhD, postdoc, faculty, industry, alumni; industry represents people currently active outside academia.
 - [x] Per-declaration sharing, hearts, and private flags.
 - [x] Contact address shown as `contact@whywedophysics.com`.
 - [x] Configure that address through Cloudflare Email Routing to the AI4Theory mailbox destination.
@@ -57,7 +57,7 @@
 - [x] Every mapped submission has its own dot; the declaration in the upper-right featured card has the larger dot.
 - [x] Only the declaration in the upper carousel has an outlined map dot; all other mapped submissions use plain blue dots.
 - [x] One row shows common arXiv categories; `+` expands a second arXiv row containing the remaining categories, including `math-ph`.
-- [x] The undergrad/master’s/PhD/postdoc/faculty/alumni row sits below the arXiv rows.
+- [x] The undergrad/master’s/PhD/postdoc/faculty/industry/alumni row sits below the arXiv rows.
 - [x] A compact `CLEAR` control appears only while a map filter is selected, at the left of the career-stage row.
 - [x] arXiv and career-stage chips support multiple simultaneous selections.
 - [x] Links have no underlines; sharing uses an icon.
@@ -87,6 +87,7 @@
 - [x] Invalid legacy browser visitor IDs are regenerated so the backend cannot reject a returning visitor while the page silently keeps stale cached responses.
 - [x] Relay wall and submission requests through a same-origin Cloudflare Pages Function so Chrome cannot reject the Apps Script response as a third-party script.
 - [x] Replace browser-executed JSONP callbacks with ordinary same-origin JSON fetches while retaining compatibility for already-open old tabs.
+- [ ] Retry a transient upstream wall-read failure before surfacing a Cloudflare `/api` 502; preserve the last successful responses while retrying and do not resend form submissions.
 - [x] Keep declaration cards fixed-height and reduce only the declaration font as needed so every card's text and metadata stay inside it.
 - [x] Apply fixed-card text fitting to the upper carousel as well as every response card; carousel content never overflows upward.
 - [x] Reserve the same fixed lower block for metadata, divider, and actions on every response and carousel card; only declaration font size changes to fit.
