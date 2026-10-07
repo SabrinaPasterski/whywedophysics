@@ -47,8 +47,7 @@ footer{margin-top:18px}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .reason-field textarea{min-height:96px}
 .map-opt-in{padding-top:2px}
-.form-actions{display:flex;align-items:center;justify-content:space-between;gap:18px}
-.form-actions .small{margin:0;color:#6b7280}
+.form-actions{display:flex;align-items:center;justify-content:flex-end;gap:18px}
 .form-actions .primary{flex:0 0 auto}
 html,body{max-width:100%;overflow-x:hidden}
 @media(max-width:550px){
@@ -66,6 +65,5 @@ html,body{max-width:100%;overflow-x:hidden}
  .map-toolbar,#filter-chips,.filter-chip-row{min-width:0;max-width:100%}
  footer{margin-top:14px}
  .form-grid{grid-template-columns:1fr}
- .form-actions{align-items:flex-start;flex-direction:column-reverse;gap:10px}
  .form-actions .primary{width:100%}
 }

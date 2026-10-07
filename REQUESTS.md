@@ -8,6 +8,7 @@
 - [x] Declarations limited to 140 characters, with a 20-character minimum.
 - [x] Optional city appears on the map only with explicit permission.
 - [x] University / institution is required and displayed on each submitted response.
+- [x] Career stage and primary arXiv field are required so every response can be filtered; PhD year remains optional.
 - [x] Career stage row is undergrad, master’s, PhD, postdoc, faculty, alumni.
 - [x] Per-declaration sharing, hearts, and private flags.
 - [x] Contact address shown as `contact@whywedophysics.com`.
@@ -41,8 +42,13 @@
 - [x] Links have no underlines; sharing uses an icon.
 - [x] Header omits redundant site sharing; card icons share individual declarations.
 - [x] Submit form leads with the 140-character declaration and groups metadata into compact rows.
-- [x] City and country stay visible in the form; selecting public-map permission makes both required.
+- [x] One editable `City, Country` field stays visible; public-map permission makes a complete city-country pair required.
+- [x] Institution is a searchable local list with write-in support; recognized selections auto-fill `City, Country`.
+- [x] `City, Country` replaces the separate arXiv identifier field beside PhD year.
+- [x] The location field is labeled simply `City`; known institutions still fill its city-country value for map placement.
+- [x] The form labels the required career-level selector `Career Stage`.
 - [x] Name field keeps the `Name` label and uses `As it will appear` as its placeholder.
+- [x] Submit form has no draft-preview explanatory line.
 - [x] About mission: “Physics is changing. The reasons why we do it will shape what it becomes. This project records those reasons, one short declaration at a time. Add yours.”
 - [x] The About call to action stays on its own line and uses the same font and grey color as the body; the heading remains unchanged.
 

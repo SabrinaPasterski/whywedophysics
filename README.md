@@ -29,7 +29,9 @@ The form accepts:
 
 - name;
 - required university or institution;
-- optional career stage and PhD year;
+- searchable local institution suggestions that auto-fill an editable `City, Country` field while preserving write-in entries;
+- required career stage and primary arXiv field;
+- optional PhD year;
 - optional primary arXiv field and arXiv identifier;
 - a 20–140 character declaration;
 - optional city and country, published only when map permission is checked;

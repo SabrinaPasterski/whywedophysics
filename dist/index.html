@@ -105,12 +105,13 @@
 <label>Name<input name="name" required maxlength="100" autocomplete="name" placeholder="As it will appear">
 </label>
 <label>University / Institution
-<input name="affiliation" required maxlength="160" placeholder="University, lab, collaboration, or independent">
+<input name="affiliation" required maxlength="160" autocomplete="organization" list="institution-options" placeholder="Search or write in">
+<datalist id="institution-options"></datalist>
 </label>
 </div>
 <div class="form-grid research-fields">
-<label>Stage <span>(optional)</span>
-<select name="stage">
+<label>Career Stage
+<select name="stage" required>
 <option value="">—</option>
 <option>Undergrad</option>
 <option>Master’s</option>
@@ -120,8 +121,8 @@
 <option>Alumni</option>
 </select>
 </label>
-<label>Primary arXiv field <span>(optional)</span>
-<select name="category">
+<label>Primary arXiv field
+<select name="category" required>
 <option value="">—</option>
 <option>astro-ph</option>
 <option>cond-mat</option>
@@ -142,16 +143,10 @@
 <label>PhD year <span>(optional)</span>
 <input name="year" type="number" min="1900" max="2100" inputmode="numeric" placeholder="Completed or expected">
 </label>
-<label>arXiv identifier <span>(optional)</span>
-<input name="arxiv" maxlength="200" placeholder="Author profile or paper identifier">
-</label>
-</div>
-<div class="city-fields" id="location-fields">
-<label>City <span>(optional)</span>
-<input name="city" maxlength="120" autocomplete="address-level2" placeholder="City">
-</label>
-<label>Country <span>(optional)</span>
-<input name="country" maxlength="120" autocomplete="country-name" placeholder="Country">
+<label id="location-fields">City
+<input name="location" maxlength="242" placeholder="City, Country">
+<input name="city" type="hidden">
+<input name="country" type="hidden">
 </label>
 </div>
 <label class="checkbox map-opt-in">
@@ -161,7 +156,6 @@
 <label class="website-field" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off">
 </label>
 <div class="form-actions">
-<p class="small">Draft preview · nothing is sent yet</p>
 <button class="primary" type="submit">Submit</button>
 </div>
 </form>
