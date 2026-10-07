@@ -51,7 +51,7 @@
 - [x] Name field keeps the `Name` label and uses `As it will appear` as its placeholder.
 - [x] Submit form has no draft-preview explanatory line.
 - [x] Live submissions return a copyable reference ID and a concise, non-editorial moderation note for questions or removal requests.
-- [x] Moderation copy is the minimal line: “Submissions are moderated, not edited.”
+- [x] No moderation-policy copy appears in the form or confirmation; the site does not bind itself to a public policy statement.
 - [x] About mission: “Physics is changing. The reasons why we do it will shape what it becomes. This project records those reasons, one short declaration at a time. Add yours.”
 - [x] The About call to action stays on its own line and uses the same font and grey color as the body; the heading remains unchanged.
 
