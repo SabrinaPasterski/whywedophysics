@@ -27,7 +27,7 @@
 - [x] Search offers `RECENT | POPULAR`; popular sorts by hearts.
 - [x] Example map cards occupy non-overlapping positions.
 - [x] Links have no underlines; sharing uses an icon.
-- [x] About copy remains minimal and describes the collection as bottom-up.
+- [x] About copy: “A bottom-up collection of short declarations about why we do physics. Add yours. Explore the map. Share one.”
 
 ## Repository and operations
 
