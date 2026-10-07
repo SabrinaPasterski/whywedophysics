@@ -12,8 +12,8 @@
 - [x] Career stage row is undergrad, master’s, PhD, postdoc, faculty, alumni.
 - [x] Per-declaration sharing, hearts, and private flags.
 - [x] Contact address shown as `contact@whywedophysics.com`.
-- [ ] Configure that address to forward to `contact@ai4theory.org` in Bluehost.
-- [ ] Connect the production domain and deploy through Bluehost.
+- [ ] Configure that address through Cloudflare Email Routing to the AI4Theory mailbox destination.
+- [ ] Connect the production domain and deploy through Cloudflare Pages; keep Bluehost as registrar only.
 
 ## Interface
 
@@ -42,10 +42,10 @@
 - [x] Links have no underlines; sharing uses an icon.
 - [x] Header omits redundant site sharing; card icons share individual declarations.
 - [x] Submit form leads with the 140-character declaration and groups metadata into compact rows.
-- [x] One editable `City, Country` field stays visible; public-map permission makes a complete city-country pair required.
-- [x] Institution is a searchable local list with write-in support; recognized selections auto-fill `City, Country`.
-- [x] `City, Country` replaces the separate arXiv identifier field beside PhD year.
-- [x] The location field is labeled simply `City`; known institutions still fill its city-country value for map placement.
+- [x] The optional editable City field remains; a filled `City, Country` value appears on the map and an empty field does not.
+- [x] There is no separate map-permission checkbox; entering a City value is the map opt-in.
+- [x] Institution is a searchable local list with write-in support and can auto-fill City for non-alumni.
+- [x] Alumni do not auto-fill City but may enter it manually.
 - [x] The form labels the required career-level selector `Career Stage`.
 - [x] Optional PhD year uses the compact `YYYY` placeholder.
 - [x] Name field keeps the `Name` label and uses `As it will appear` as its placeholder.
@@ -60,9 +60,11 @@
 - [x] Desktop Submit dialog fits without an unnecessary internal scrollbar; mobile retains scrolling only when the viewport requires it.
 - [x] About mission: “Physics is changing. The reasons why we do it will shape what it becomes. This project records those reasons, one short declaration at a time. Add yours.”
 - [x] The About call to action stays on its own line and uses the same font and grey color as the body; the heading remains unchanged.
+- [x] A new or temporarily unreachable wall falls back silently to the illustrative responses; it never displays connection errors or “Waiting for the first response.”
 
 ## Repository and operations
 
 - [ ] Create a standalone GitHub repository and place its checkout at `Research/WhyWeDoPhysics`.
 - [ ] Configure the Apps Script endpoint and verify a moderated live submission.
 - [ ] Verify the production domain, HTTPS, sharing, map permission, and contact forwarding.
+- [x] Document the private data model, moderation, backups, free-tier constraint, and Cloudflare deployment path.

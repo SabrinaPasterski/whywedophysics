@@ -14,11 +14,12 @@ Without a configured endpoint, the site shows illustrative responses. Preview su
 
 ## Submissions and moderation
 
-The public form is part of the site. Google Sheets and Apps Script provide the private submission queue; contributors are not sent to a Google Form.
+The public form is part of the site. A private Google Sheet owned by `ai4theory@gmail.com` and Apps Script provide the moderation queue; contributors are not sent to a Google Form.
 
 1. Create a project at `https://script.google.com` in the account that should own the response data.
 2. Paste `google/Code.gs` into the project.
 3. Run `setupSite()` once and authorize it. The execution log contains the URL of the private moderation spreadsheet.
+   If the Sheet already exists, run `setupBackups()` once to install the private daily Google Drive backup.
 4. Deploy as a Web app, executing as the owner, with access set to **Anyone**.
 5. Put the deployment URL ending in `/exec` in `dist/config.js` as `endpointUrl`.
 6. Submit a test response. It must remain absent from the public wall until **Approved** is checked in the private Responses sheet.
@@ -29,16 +30,17 @@ The form accepts:
 
 - name;
 - required university or institution;
-- searchable local institution suggestions that auto-fill an editable `City, Country` field while preserving write-in entries;
+- searchable local institution suggestions that auto-fill an editable `City, Country` field for non-alumni while preserving write-in entries;
 - required career stage and primary arXiv field;
 - optional PhD year;
-- optional primary arXiv field and arXiv identifier;
 - a 20–140 character declaration;
-- optional city and country, published only when map permission is checked;
+- optional city and country; filling the field places the response on the map and leaving it empty omits the response from the map;
 - required display consent.
 - a copyable submission ID for follow-up;
 
 No email address is collected. The private spreadsheet must not be published.
+
+Google Sheets version history is supplemented by a private daily Drive copy: 90 daily backups plus first-of-month backups retained for two years. This uses the AI4Theory account's existing free Drive storage and does not require another service.
 
 ## Public behavior
 
@@ -52,7 +54,9 @@ No email address is collected. The private spreadsheet must not be published.
 
 ## Hosting
 
-`dist/` is the complete static site. Upload its contents to the Bluehost document root for the domain, or deploy the same directory elsewhere and point Bluehost DNS to it. The site contact is `contact@whywedophysics.com`; configure that address to forward to `contact@ai4theory.org`.
+`dist/` is the complete static site and deploys from this GitHub repository to Cloudflare Pages on the Free plan. Work happens on `debug`; `./deploy.sh` merges it into the production `main` branch, whose push triggers Cloudflare. Bluehost remains the domain registrar only. The site does not require the PhysCode droplet or a paid database. Cloudflare also supplies DNS, HTTPS, and email routing for `contact@whywedophysics.com`.
+
+The complete data model, moderation process, free-tier constraint, and deployment checklist are in [`docs/DATA_AND_DEPLOYMENT.md`](docs/DATA_AND_DEPLOYMENT.md).
 
 Do not place credentials in this repository. `dist/config.js` contains only the public Apps Script web-app URL.
 
