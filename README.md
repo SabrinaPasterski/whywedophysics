@@ -36,7 +36,7 @@ The form accepts:
 - a 20–140 character declaration;
 - optional city and country, published only when map permission is checked;
 - required display consent.
-- a copyable submission reference ID for questions or removal requests;
+- a copyable submission ID for follow-up;
 
 No email address is collected. The private spreadsheet must not be published.
 
