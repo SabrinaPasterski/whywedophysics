@@ -29,6 +29,7 @@
 - [x] Brand spacing is CSS-only and stable on first paint; `a community portrait` does not wobble after load or fall back to word-only justification in Safari.
 - [x] Reduce only the vertical gap between the two brand lines; preserve their equal widths, letter spacing, and text heights.
 - [x] Make the complete two-line brand slightly larger in both width and height without changing its proportions, with only a subtle 3px vertical separation.
+- [x] Move only the `WHY WE DO PHYSICS` line down by 1px without shifting the subtitle or changing the brand scale.
 - [x] Mobile keeps the full world map in view without a horizontal scrollbar, with the header, hero, cards, search, and footer fitting a 390px viewport.
 - [x] Header and footer rules have the same inset width.
 - [x] Hero question is vertically centered beside one fixed-height rotating card.
