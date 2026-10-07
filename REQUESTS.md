@@ -4,7 +4,7 @@
 
 - [x] Bottom-up community portrait; open submission rather than editorial selection.
 - [x] Native on-site form with a private Google Sheets moderation queue.
-- [x] The moderation Sheet keeps real responses at the top and puts the `Approved` checkbox in column A.
+- [x] The moderation Sheet keeps real responses at the top and puts the centered `Approved` checkbox in column A.
 - [x] New moderation entries and the public wall both default to newest first.
 - [x] Deploy the Apps Script update that emails `ai4theory@gmail.com` when a new submission is saved; a mail failure must not lose or reject the submission.
 - [x] Migrate production to the 17-column schema, keep timestamps in the compact original format, remove the three `C0DE` test rows, and preserve the approved Sabrina and Joseph submissions.

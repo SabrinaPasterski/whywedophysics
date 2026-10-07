@@ -22,6 +22,7 @@ function setupSite() {
   responses.setName('Responses');
   responses.getRange(1, 1, 1, RESPONSE_HEADERS.length).setValues([RESPONSE_HEADERS]);
   responses.getRange('C:C').setNumberFormat(TIMESTAMP_FORMAT);
+  responses.getRange('A:A').setHorizontalAlignment('center');
   responses.setFrozenRows(1);
   ss.insertSheet('Hearts').appendRow(['Response ID','Visitor','Created']);
   ss.insertSheet('Flags').appendRow(['Response ID','Visitor','Reason','Created','Resolved']);
@@ -60,6 +61,7 @@ function migrateModerationSheet() {
     sheet.getRange(2, 1, nextRows.length, 2).setValues(nextRows.map(row => [row[0], row[1]]));
   }
   sheet.getRange('C:C').setNumberFormat(TIMESTAMP_FORMAT);
+  sheet.getRange('A:A').setHorizontalAlignment('center');
   sheet.setFrozenRows(1);
   console.log('Compacted ' + nextRows.length + ' responses; Approved is column A.');
 }
