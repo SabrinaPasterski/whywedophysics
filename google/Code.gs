@@ -53,8 +53,8 @@ function migrateModerationSheet() {
   sheet.getRange(1, 1, 1, nextHeaders.length).setValues([nextHeaders]);
   if (nextRows.length) {
     sheet.getRange(2, 1, nextRows.length, nextHeaders.length).setValues(nextRows);
-    sheet.getRange(2, 1, nextRows.length, 1).insertCheckboxes();
-    sheet.getRange(2, 1, nextRows.length, 1).setValues(nextRows.map(row => [row[0]]));
+    sheet.getRange(2, 1, nextRows.length, 2).insertCheckboxes();
+    sheet.getRange(2, 1, nextRows.length, 2).setValues(nextRows.map(row => [row[0], row[1]]));
   }
   sheet.setFrozenRows(1);
   console.log('Compacted ' + nextRows.length + ' responses; Approved is column A.');
@@ -145,7 +145,7 @@ function doPost(e) {
     }
     sheet.insertRowAfter(1);
     sheet.getRange(2, 1, 1, row.length).setValues([row]);
-    sheet.getRange(2, 1).insertCheckboxes().setValue(false);
+    sheet.getRange(2, 1, 1, 2).insertCheckboxes().setValues([[false, false]]);
     return json({ok: true, id: id});
   } catch (err) {
     const safe = ['Invalid request.','Complete the required fields.','Check the PhD year.','Add both city and country for map placement.','The site is busy. Please try again.'];
