@@ -85,6 +85,7 @@
 - [x] The About call to action stays on its own line and uses the same font and grey color as the body; the heading remains unchanged.
 - [x] A temporarily unreachable wall silently uses the last successful approved response data; sample content is not hardcoded in the browser.
 - [x] Production HTML, CSS, and JavaScript do not mix stale cached versions after a deployment.
+- [ ] Recheck Safari after ordinary refresh and reopening an existing tab; verify current assets and approved responses together, and record any reproduced cache/refresh discrepancy before choosing a fix. See `docs/2026-10-13-safari-refresh-note.md`; note requested 2026-10-13, verification pending.
 - [x] The production endpoint configuration overrides any legacy browser-local backend URL so an existing visitor cannot stay pinned to an old Apps Script deployment.
 - [x] Invalid legacy browser visitor IDs are regenerated so the backend cannot reject a returning visitor while the page silently keeps stale cached responses.
 - [x] Relay wall and submission requests through a same-origin Cloudflare Pages Function so Chrome cannot reject the Apps Script response as a third-party script.
